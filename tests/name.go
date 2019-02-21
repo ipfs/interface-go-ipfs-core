@@ -92,6 +92,42 @@ func (tp *provider) TestPublishResolve(t *testing.T) {
 			}
 		})
 
+		t.Run("basicSearch", func(t *testing.T) {
+			api, p := init()
+			e, err := api.Name().Publish(ctx, p)
+			if err != nil {
+				t.Fatal(err)
+			}
+
+			self, err := api.Key().Self(ctx)
+			if err != nil {
+				t.Fatal(err)
+			}
+
+			if e.Name() != self.ID().Pretty() {
+				t.Errorf("expected e.Name to equal '%s', got '%s'", self.ID().Pretty(), e.Name())
+			}
+
+			if e.Value().String() != p.String() {
+				t.Errorf("expected paths to match, '%s'!='%s'", e.Value().String(), p.String())
+			}
+
+			res, err := api.Name().Search(ctx, e.Name(), ropts...)
+			if err != nil {
+				t.Fatal(err)
+			}
+
+			resPath := <-res
+
+			if resPath.String() != p.String() {
+				t.Errorf("expected paths to match, '%s'!='%s'", resPath.String(), p.String())
+			}
+
+			if _, ok := <- res; ok {
+				t.Error("didn't expect a result")
+			}
+		})
+
 		t.Run("publishPath", func(t *testing.T) {
 			api, p := init()
 			e, err := api.Name().Publish(ctx, appendPath(p, "/test"))
