@@ -885,13 +885,9 @@ func (tp *provider) TestLsNonUnixfs(t *testing.T) {
 		t.Error(err)
 	}
 
-	links, err := api.Unixfs().Ls(ctx, coreiface.IpfsPath(nd.Cid()))
-	if err != nil {
-		t.Error(err)
-	}
-
-	if len(links) != 0 {
-		t.Fatalf("expected 0 links, got %d", len(links))
+	_, err := api.Unixfs().Ls(ctx, coreiface.IpfsPath(nd.Cid()))
+	if err == nil {
+		t.Error("should have failed to list non-directory")
 	}
 }
 
