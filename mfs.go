@@ -1,6 +1,7 @@
 package iface
 
 import (
+	"context"
 	"io"
 	"os"
 )
@@ -25,23 +26,23 @@ type MfsPath interface {
 // TODO: ParseMfsPath
 
 type MfsAPI interface {
-	Create(path MfsPath) (File, error)
-	Open(path MfsPath) (File, error)
-	OpenFile(path MfsPath, flag int, perm os.FileMode) (File, error)
+	Create(ctx context.Context, path MfsPath) (File, error)
+	Open(ctx context.Context, path MfsPath) (File, error)
+	OpenFile(ctx context.Context, path MfsPath, flag int, perm os.FileMode) (File, error)
 
-	Stat(path MfsPath) (os.FileInfo, error)
+	Stat(ctx context.Context, path MfsPath) (os.FileInfo, error)
 
-	Rename(oldpath, newpath MfsPath) error
-	Remove(path MfsPath) error
+	Rename(ctx context.Context, oldpath, newpath MfsPath) error
+	Remove(ctx context.Context, path MfsPath) error
 
 	// ReadDir reads the directory named by dirname and returns a list of
 	// directory entries sorted by filename.
-	ReadDir(path MfsPath) ([]os.FileInfo, error)
+	ReadDir(ctx context.Context, path MfsPath) ([]os.FileInfo, error)
 	// MkdirAll creates a directory named path, along with any necessary
 	// parents, and returns nil, or else returns an error. The permission bits
 	// perm are used for all directories that MkdirAll creates. If path is
 	// already a directory, MkdirAll does nothing and returns nil.
-	MkdirAll(path MfsPath, perm os.FileMode) error
+	MkdirAll(ctx context.Context, path MfsPath, perm os.FileMode) error
 
 	// TODO: ChCid
 	// TODO: Symlink stuff (is it implemented in mfs?)
