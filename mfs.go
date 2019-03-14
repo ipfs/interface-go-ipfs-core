@@ -50,8 +50,8 @@ type MfsAPI interface {
 
 type File interface {
 	io.Writer
+	io.WriterAt
 	io.Reader
-	io.ReaderAt
 	io.Seeker
 	io.Closer
 
