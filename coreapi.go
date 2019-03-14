@@ -33,7 +33,7 @@ type CoreAPI interface {
 	// ObjectAPI returns an implementation of Object API
 	Object() ObjectAPI
 
-	Mfs() MfsAPI
+	Files() MfsAPI
 
 	// Dht returns an implementation of Dht API
 	Dht() DhtAPI
