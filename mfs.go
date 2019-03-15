@@ -4,6 +4,7 @@ import (
 	"context"
 	"io"
 	"os"
+	"strings"
 )
 
 // MfsPath
@@ -23,7 +24,24 @@ type MfsPath interface {
 	Mutable() bool
 }
 
-// TODO: ParseMfsPath
+type filesPath struct {
+	p string
+}
+
+func (p *filesPath) String() string {
+	return p.p
+}
+
+func (p *filesPath) Mutable() bool {
+	return !(strings.HasPrefix(p.p, "/ipfs") || strings.HasPrefix(p.p, "/ipld"))
+}
+
+func FilePath(p string) MfsPath {
+	// TODO: more validation
+	return &filesPath{
+		p: p,
+	}
+}
 
 type MfsAPI interface {
 	Create(ctx context.Context, path MfsPath) (File, error)
