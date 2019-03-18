@@ -62,6 +62,7 @@ type MfsAPI interface {
 	// already a directory, MkdirAll does nothing and returns nil.
 	MkdirAll(ctx context.Context, path MfsPath, perm os.FileMode) error
 
+	Flush(ctx context.Context, path MfsPath) error
 	// TODO: ChCid
 	// TODO: Symlink stuff (is it implemented in mfs?)
 }
