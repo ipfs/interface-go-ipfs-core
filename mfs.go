@@ -75,8 +75,6 @@ type File interface {
 	io.Seeker
 	io.Closer
 
-	Name() MfsPath
-
 	// Truncate the file.
 	Truncate(size int64) error
 }
