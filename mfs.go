@@ -51,6 +51,7 @@ type MfsAPI interface {
 	Stat(ctx context.Context, path MfsPath) (os.FileInfo, error)
 
 	Rename(ctx context.Context, oldpath, newpath MfsPath) error
+	Copy(ctx context.Context, oldpath, newpath MfsPath) error
 	Remove(ctx context.Context, path MfsPath) error
 
 	// ReadDir reads the directory named by dirname and returns a list of
