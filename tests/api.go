@@ -64,6 +64,7 @@ func TestApi(p Provider) func(t *testing.T) {
 		t.Run("Key", tp.TestKey)
 		t.Run("Name", tp.TestName)
 		t.Run("Object", tp.TestObject)
+		t.Run("Mfs", tp.TestMfs)
 		t.Run("Path", tp.TestPath)
 		t.Run("Pin", tp.TestPin)
 		t.Run("PubSub", tp.TestPubSub)

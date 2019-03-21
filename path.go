@@ -12,10 +12,10 @@ import (
 //
 // Paths must be prefixed with a valid prefix:
 //
-// * /ipfs - Immutable unixfs path (files)
-// * /ipld - Immutable ipld path (data)
-// * /ipns - Mutable names. Usually resolves to one of the immutable paths
-//TODO: /local (MFS)
+// * /ipfs  - Immutable unixfs path (files)
+// * /ipld  - Immutable ipld path (data)
+// * /ipns  - Mutable names. Usually resolves to one of the immutable paths
+// * /files - References to local MFS (`ipfs files`)
 type Path interface {
 	// String returns the path as a string.
 	String() string
@@ -25,7 +25,7 @@ type Path interface {
 	// For example path "/ipfs/QmHash", calling Namespace() will return "ipfs"
 	Namespace() string
 
-	// Mutable returns false if the data pointed to by this path in guaranteed
+	// Mutable returns false if the data pointed to by this path is guaranteed
 	// to not change.
 	//
 	// Note that resolved mutable path can be immutable.
