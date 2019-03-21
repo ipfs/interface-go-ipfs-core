@@ -20,7 +20,7 @@ func (tp *provider) TestFilesDirs(t *testing.T) {
 		return
 	}
 
-	l, err := api.Files().ReadDir(ctx, iface.FilePath("/test"))
+	l, err := api.Files().ReadDir(ctx, iface.ParsePath("/files/test"))
 	if len(l) != 0 {
 		return
 	}
