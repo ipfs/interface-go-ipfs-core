@@ -91,6 +91,6 @@
   "license": "",
   "name": "interface-go-ipfs-core",
   "releaseCmd": "git commit -a -m \"gx publish $VERSION\"",
-  "version": "0.1.15"
+  "version": "0.1.16"
 }
 
