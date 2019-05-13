@@ -1,7 +1,7 @@
 module github.com/ipfs/interface-go-ipfs-core
 
 require (
-	github.com/ipfs/go-cid v0.0.1
+	github.com/ipfs/go-cid v0.0.2
 	github.com/ipfs/go-ipfs-files v0.0.2
 	github.com/ipfs/go-ipld-cbor v0.0.1
 	github.com/ipfs/go-ipld-format v0.0.1
