@@ -11,6 +11,7 @@ type PinLsSettings struct {
 // PinRmSettings represents the settings of pin rm command
 type PinRmSettings struct {
 	Recursive bool
+	Force     bool
 }
 
 type PinUpdateSettings struct {
@@ -45,6 +46,7 @@ func PinAddOptions(opts ...PinAddOption) (*PinAddSettings, error) {
 func PinRmOptions(opts ...PinRmOption) (*PinRmSettings, error) {
 	options := &PinRmSettings{
 		Recursive: true,
+		Force:     false,
 	}
 
 	for _, opt := range opts {
@@ -133,6 +135,15 @@ func (pinOpts) Recursive(recursive bool) PinAddOption {
 func (pinOpts) RmRecursive(recursive bool) PinRmOption {
 	return func(settings *PinRmSettings) error {
 		settings.Recursive = recursive
+		return nil
+	}
+}
+
+// Force is an option for Pin.Rm which, when set to true, will ignore
+// non-existing path
+func (pinOpts) Force(force bool) PinRmOption {
+	return func(settings *PinRmSettings) error {
+		settings.Force = force
 		return nil
 	}
 }
