@@ -1,70 +1,40 @@
-package fs
+package ipfs
 
 import (
 	"context"
+	"encoding/binary"
 	"io"
 	"os"
 	"strings"
 	"sync"
 
+	"github.com/ipfs/go-cid"
 	"github.com/ipfs/go-unixfs"
+	fs "github.com/ipfs/interface-go-ipfs-core/filesystem/interface"
+	"github.com/multiformats/go-multihash"
 )
 
-// This file represents a partial and theoretical
-// pkg-level implementation of a filesystem{}
-
-var (
-	pkgRoot FileSystem
-	closers []io.Closer
-)
-
-func init() {
-
-	// we depend on data from the coreapi to initalize our API nodes
-	// so fetch it or something and store it on the FS
-	daemon := fallbackApi()
-	ctx := deriveCtx(daemon.ctx) // if the daemon cancels, so should we
-
-	pkgRoot = NewFileSystem(ctx)
-	for _, pair := range [...]struct {
-		string
-		ParseFn
-	}{
-		{"/", rootParser},
-		{"/ipfs", pinRootParser},  // requests for "/ipfs" are directed at pinRootParser(ctx, requestString)
-		{"/ipfs/", coreAPIParser}, // all requests beneath "/ipfs/" are directed at coreAPIParser(ctx, requestString)
-		{"/ipns", keyRootParser},
-		{"/ipns/", nameAPIParser},
-		{filesRootPrefix, filesAPIParser},
-	} {
-		closer, err := pkgRoot.Register(pair.string, pair.ParseFn)
-		if err != nil {
-			if err == errRegistered {
-				panic(fmt.Sprtinf("%q is already registered", pair.string))
-			}
-			panic(fmt.Sprtinf("cannot register %q: %s", pair.string, err))
-		}
-
-		// store these somewhere important and call them before you exit
-		// this will release the namespace at the FS level
-		closers = append(closers, closer) // in our example we do nothing with them :^)
-	}
+func Lookup(ctx context.Context, name string) (fs.FsNode, error) {
+	return pkgRoot.Lookup(ctx, name)
 }
 
-func NewDefaultFileSystem(parentCtx context.Context) (FileSystem, error) {
-	// something like this
-	fsCtx := deriveFrom(parentCtx)
-	// go onCancel(fsCtx) { callClosers() } ()
-	return &PathParserRegistry{fsCtx}, nil
+// api's may define Metadata.Cid() however they like
+// for the default, we use this QID-like generator
+func GenQueryID(path string, md fs.Metadata) (cid.Cid, error) {
+	mdBuf := make([]byte, 16)
+	binary.LittleEndian.PutUint64(mdBuf, uint64(md.Size()))
+	binary.LittleEndian.PutUint64(mdBuf[8:], uint64(md.Type()))
+
+	prefix := cid.V1Builder{Codec: cid.DagCBOR, MhType: multihash.BLAKE2B_MIN}
+	return prefix.Sum(append([]byte(path), mdBuf...))
 }
 
 type PathParserRegistry struct {
 	sync.Mutex
-	ctx         context.Context
-	nodeParsers map[string]ParseFn
+	nodeParsers map[string]fs.ParseFn
 }
 
-func (rr *PathParserRegistry) Register(subrootPath string, nodeParser ParseFn) (io.Closer, error) {
+func (rr *PathParserRegistry) Mount(subrootPath string, nodeParser fs.ParseFn) (io.Closer, error) {
 	rr.Lock()
 	val, ok := rr.nodeParsers[subrootPath]
 	if ok || val != nil {
@@ -74,12 +44,14 @@ func (rr *PathParserRegistry) Register(subrootPath string, nodeParser ParseFn) (
 	rr.nodeParsers[subrootPath] = nodeParsers
 	return func() {
 		ri.Lock()
+		//TODO: somehow trigger cascading close for open subsystem handles
+		// or note that open handles are still valid, but new handles will not be made
 		delete(ri.subSystem, subrootPath)
 		ri.Unlock()
 	}, nil
 }
 
-func (PathParserRegistry) Lookup(ctx context.Context, name string) (FsPath, error) {
+func (PathParserRegistry) Lookup(ctx context.Context, name string) (FsNode, error) {
 	//NOTE: we can use a pkg level cache here, and fallback to the parser only when necessary
 
 	/* very simple map lookup
@@ -119,13 +91,7 @@ func Unlock() {
 	pkgRoot.Unlock()
 }
 
-func Lookup(ctx context.Context, name string) (FsPath, error) {
-	return pkgRoot.Lookup(ctx, name)
-}
-
-// ...
-
-func OpenFile(name string, flags flags, perm os.FileMode) (FsFile, error) {
+func OpenFile(name string, flags OFlags, perm os.FileMode) (FsFile, error) {
 	fs.Lock()
 	defer fs.Unlock()
 

@@ -1,0 +1,3 @@
+type nameRoot struct {
+	fusePath
+}
