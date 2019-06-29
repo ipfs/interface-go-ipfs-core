@@ -2,6 +2,7 @@ package fsnode
 
 import (
 	"context"
+	"strings"
 	"sync"
 
 	"github.com/billziss-gh/cgofuse/fuse"
@@ -11,7 +12,7 @@ import (
 
 type BaseNode struct {
 	sync.RWMutex
-	path string
+	path    string
 	version uint
 
 	metadata Metadata
@@ -20,20 +21,20 @@ type BaseNode struct {
 // implementation of Metadata interface
 type Metadata struct {
 	//apiPath string
-	fStat fuse.Stat_t
+	fStat     fuse.Stat_t
 	ipfsFlags fs.Flags
 }
 
 func (md *Metadata) Type() fs.Kind {
-t := coreiface.TUnknown
+	t := coreiface.TUnknown
 
 	switch md.fStat.Mode & fuse.S_IFMT {
 	case fuse.S_IFREG:
-		t= coreiface.TFile
+		t = coreiface.TFile
 	case fuse.S_IFDIR:
-		t= coreiface.TDirectory
+		t = coreiface.TDirectory
 	case fuse.S_IFLNK:
-		t= coreiface.TSymlink
+		t = coreiface.TSymlink
 	}
 
 	return fs.Kind(t)
@@ -48,7 +49,7 @@ func (md *Metadata) Size() uint {
 }
 
 // conversion between fStat and interface
-func (rb *BaseNode) Metadata() (fs.Metadata, error) {
+func (rb *BaseNode) Metadata(_ context.Context) (fs.Metadata, error) {
 	return &rb.metadata, nil
 }
 
@@ -60,14 +61,35 @@ func (rb *BaseNode) String() string {
 	return rb.path
 }
 
-func (rb *BaseNode) Remove(_ context.Context) (int, error) {
-	return -fuse.EROFS, fs.ErrReadOnly
+func (rb *BaseNode) Remove(_ context.Context) error {
+	return fs.ErrNotImplemented
+}
+
+func (rb *BaseNode) Create(_ context.Context, _ fs.Kind) error {
+	return fs.ErrNotImplemented
+}
+
+//Core API Path interface
+func (rb *BaseNode) IsValid() error {
+	return fs.ErrNotImplemented
+}
+
+func (rb *BaseNode) Mutable() bool {
+	return false
+}
+
+func (rb *BaseNode) Namespace() string {
+	i := strings.IndexRune(rb.path[1:], '/')
+	if i == -1 {
+		return "root"
+	}
+	return rb.path[1:i]
 }
 
 const (
 	IRWXA = fuse.S_IRWXU | fuse.S_IRWXG | fuse.S_IRWXO
-	IRXA = IRWXA &^ (fuse.S_IWUSR | fuse.S_IWGRP | fuse.S_IWOTH)
-) 
+	IRXA  = IRWXA &^ (fuse.S_IWUSR | fuse.S_IWGRP | fuse.S_IWOTH)
+)
 
 func (rb *BaseNode) InitMetadata(_ context.Context) (*fuse.Stat_t, error) {
 	now := fuse.Now()
@@ -88,10 +110,14 @@ func (rb *BaseNode) typeCheck(nodeType fs.Kind) (err error) {
 
 func typeCheck(pMode uint32, nodeType fs.Kind) bool {
 	switch nodeType {
-	case fs.UfsFile: return fuse.S_IFREG == (pMode & fuse.S_IFDIR)
-	case fs.UfsDirectory: return fuse.S_IFDIR == (pMode & fuse.S_IFDIR)
-	case fs.UfsSymlink: return fuse.S_IFLNK == (pMode & fuse.S_IFDIR)
-	default: return false
+	case fs.UfsFile:
+		return fuse.S_IFREG == (pMode & fuse.S_IFDIR)
+	case fs.UfsDirectory:
+		return fuse.S_IFDIR == (pMode & fuse.S_IFDIR)
+	case fs.UfsSymlink:
+		return fuse.S_IFLNK == (pMode & fuse.S_IFDIR)
+	default:
+		return false
 	}
 }
 

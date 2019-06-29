@@ -13,22 +13,25 @@ import (
 
 type (
 	ParseFn func(ctx context.Context, name string) (Node, error)
-	Kind int
-	Flag string
-	Flags []struct{Flag;bool}
+	Kind    int
+	Flag    string
+	Flags   []struct {
+		Flag
+		bool
+	}
 )
 
 const (
-	FRead Flag ="File Read"
-	FWrite = "File Write"
-	FSync = "File Sync"
+	FRead  Flag = "File Read"
+	FWrite      = "File Write"
+	FSync       = "File Sync"
 )
 
 const (
-	UfsFile = Kind(unixfs.TFile)
+	UfsFile      = Kind(unixfs.TFile)
 	UfsDirectory = Kind(unixfs.TDirectory)
-	UfsHAMT = Kind(unixfs.THAMTShard)
-	UfsSymlink = Kind(unixfs.TSymlink)
+	UfsHAMT      = Kind(unixfs.THAMTShard)
+	UfsSymlink   = Kind(unixfs.TSymlink)
 )
 
 type FsError interface {
@@ -48,7 +51,8 @@ var (
 	ErrRoot           = FsError(errors.New("root initialization exception"))
 	ErrRecurse        = FsError(errors.New("hit recursion limit"))
 	//
-	ErrNoHandler = FsError(errors.New("no handler registered for this request"))
+	ErrNoHandler      = FsError(errors.New("no handler registered for this request"))
+	ErrNotImplemented = FsError(errors.New("operation not implemented"))
 )
 
 // Provides standard convention wrappers around an index

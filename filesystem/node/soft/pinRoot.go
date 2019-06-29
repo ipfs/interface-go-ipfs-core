@@ -3,6 +3,7 @@ package fsnode
 import (
 	"context"
 	"time"
+
 	//TODO: consider /ipfs/interface-go-ipfs-filesystem/node ?
 	coreiface "github.com/ipfs/interface-go-ipfs-core"
 	fs "github.com/ipfs/interface-go-ipfs-core/filesystem/interface"
@@ -14,18 +15,23 @@ type pinRoot struct {
 	pinAPI coreiface.PinAPI
 }
 
-func (pr *pinRoot) YieldIo(ctx context.Context) (io interface{}, err error) {
-	//TODO: some way to ping the pinapi or coreapi here
-	return pr, nil
-}
-
 func PinParser(pinAPI coreiface.PinAPI, epoch time.Time) fs.ParseFn {
 	return func(_ context.Context, path string) (fs.Node, error) {
 		if path != "" {
 			return nil, fs.ErrInvalidPath
 		}
-		return &pinRoot{pinAPI: pinAPI, softDirRoot: csd(path, epoch)}, nil
+		return &pinRoot{pinAPI: pinAPI, SoftDirRoot: csd(path, epoch)}, nil
 	}
+}
+
+func (pr *pinRoot) Version() uint {
+	pr.version++ //TODO: we need a "has changed" signal from the pinservice to be cache friendly
+	return pr.version
+}
+
+func (pr *pinRoot) YieldIo(ctx context.Context) (io interface{}, err error) {
+	//TODO: some way to ping the pinapi or coreapi here
+	return pr, nil
 }
 
 func (pr *pinRoot) Read(ctx context.Context, offset int64) <-chan string {
@@ -33,7 +39,7 @@ func (pr *pinRoot) Read(ctx context.Context, offset int64) <-chan string {
 	if err != nil {
 		return nil
 	}
-	return stringStream(ctx, pins)
+	return pinMux(ctx, pins...)
 }
 
 func (pr *pinRoot) Entries() int {

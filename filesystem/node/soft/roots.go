@@ -44,27 +44,8 @@ func (sd *SoftDirRoot) InitMetadata(ctx context.Context) (*fuse.Stat_t, error) {
 	return nodeStat, nil
 }
 
-
-func (sd *SoftDirRoot) Create(ctx context.Context, nodeType fs.Kind) error {
-	return fs.ErrIOType
-}
-
 func (mr *mountRoot) YieldIo(ctx context.Context) (io interface{}, err error) {
 	return mr, nil
-}
-
-func stringStream(ctx context.Context, strings...string) <-chan string {
-	stringChan := make(chan string)
-	go func (){
-		for _, s := range strings {
-			select {
-			case ctx.Done():return
-			case stringChan <-s:
-			}
-		}
-		close(stringChan)
-	}()
-	return stringChan
 }
 
 func (mr *mountRoot) Read(ctx context.Context, offset int64) <-chan string {
