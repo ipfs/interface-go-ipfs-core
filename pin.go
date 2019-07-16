@@ -41,7 +41,7 @@ type PinAPI interface {
 	Add(context.Context, path.Path, ...options.PinAddOption) error
 
 	// Ls returns list of pinned objects on this node
-	Ls(context.Context, ...options.PinLsOption) ([]Pin, error)
+	Ls(context.Context, ...options.PinLsOption) (<-chan Pin, error)
 
 	// Rm removes pin for object specified by the path
 	Rm(context.Context, path.Path, ...options.PinRmOption) error
