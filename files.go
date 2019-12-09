@@ -84,6 +84,5 @@ type FilesAPI interface {
 	Read(ctx context.Context, path string, opts *FilesReadOptions) (io.ReadCloser, error)
 	Write(ctx context.Context, path string, r io.Reader, opts *FilesWriteOptions) error
 	Mkdir(ctx context.Context, path string, opts *FilesMkdirOptions) error
-	ChangeCid(ctx context.Context, path string, opts *FilesChangeCidOptions) error
 	Flush(ctx context.Context, path string) error
 }
