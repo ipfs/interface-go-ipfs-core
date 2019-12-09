@@ -63,7 +63,7 @@ type FilesChangeCidOptions struct {
 }
 
 type FileInfo struct {
-	Hash           string
+	Cid            cid.Cid
 	Size           uint64
 	CumulativeSize uint64
 	Blocks         int
