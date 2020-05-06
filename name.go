@@ -18,11 +18,6 @@ type IpnsEntry interface {
 	Value() path.Path
 }
 
-type IpnsResult struct {
-	path.Path
-	Err error
-}
-
 // NameAPI specifies the interface to IPNS.
 //
 // IPNS is a PKI namespace, where names are the hashes of public keys, and the
@@ -43,5 +38,5 @@ type NameAPI interface {
 	//
 	// Note: by default, all paths read from the channel are considered unsafe,
 	// except the latest (last path in channel read buffer).
-	Search(ctx context.Context, name string, opts ...options.NameResolveOption) (<-chan IpnsResult, error)
+	Search(ctx context.Context, name string, opts ...options.NameResolveOption) (<-chan path.Path, <-chan error)
 }

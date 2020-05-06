@@ -55,8 +55,6 @@ type DirEntry struct {
 	Size   uint64   // The size of the file in bytes (or the size of the symlink).
 	Type   FileType // The type of the file.
 	Target string   // The symlink target (if a symlink).
-
-	Err error
 }
 
 // UnixfsAPI is the basic interface to immutable files in IPFS
@@ -75,5 +73,5 @@ type UnixfsAPI interface {
 
 	// Ls returns the list of links in a directory. Links aren't guaranteed to be
 	// returned in order
-	Ls(context.Context, path.Path, ...options.UnixfsLsOption) (<-chan DirEntry, error)
+	Ls(context.Context, path.Path, ...options.UnixfsLsOption) (<-chan DirEntry, <-chan error)
 }

@@ -681,15 +681,9 @@ func (tp *TestSuite) TestLs(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	entries, err := api.Unixfs().Ls(ctx, p)
-	if err != nil {
-		t.Fatal(err)
-	}
+	entries, errCh := api.Unixfs().Ls(ctx, p)
 
 	entry := <-entries
-	if entry.Err != nil {
-		t.Fatal(entry.Err)
-	}
 	if entry.Size != 15 {
 		t.Errorf("expected size = 15, got %d", entry.Size)
 	}
@@ -703,9 +697,6 @@ func (tp *TestSuite) TestLs(t *testing.T) {
 		t.Errorf("expected cid = QmX3qQVKxDGz3URVC3861Z3CKtQKGBn6ffXRBBWGMFz9Lr, got %s", entry.Cid)
 	}
 	entry = <-entries
-	if entry.Err != nil {
-		t.Fatal(entry.Err)
-	}
 	if entry.Type != coreiface.TSymlink {
 		t.Errorf("wrong type %s", entry.Type)
 	}
@@ -716,11 +707,11 @@ func (tp *TestSuite) TestLs(t *testing.T) {
 		t.Errorf("expected symlink target to be /foo/bar, got %s", entry.Target)
 	}
 
-	if l, ok := <-entries; ok {
+	if _, ok := <-entries; ok {
 		t.Errorf("didn't expect a second link")
-		if l.Err != nil {
-			t.Error(l.Err)
-		}
+	}
+	if err := <-errCh; err != nil {
+		t.Error(err)
 	}
 }
 
@@ -784,13 +775,19 @@ func (tp *TestSuite) TestLsEmptyDir(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	links, err := api.Unixfs().Ls(ctx, path.IpfsPath(emptyDir.Cid()))
-	if err != nil {
-		t.Fatal(err)
+	links, errCh := api.Unixfs().Ls(ctx, path.IpfsPath(emptyDir.Cid()))
+	count := 0
+	for range links {
+		count++
 	}
 
-	if len(links) != 0 {
+	if count != 0 {
 		t.Fatalf("expected 0 links, got %d", len(links))
+	}
+
+	err = <-errCh
+	if err != nil {
+		t.Fatal(err)
 	}
 }
 
@@ -813,13 +810,20 @@ func (tp *TestSuite) TestLsNonUnixfs(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	links, err := api.Unixfs().Ls(ctx, path.IpfsPath(nd.Cid()))
-	if err != nil {
-		t.Fatal(err)
+	links, errCh := api.Unixfs().Ls(ctx, path.IpfsPath(nd.Cid()))
+
+	count := 0
+	for range links {
+		count++
 	}
 
-	if len(links) != 0 {
+	if count != 0 {
 		t.Fatalf("expected 0 links, got %d", len(links))
+	}
+
+	err = <-errCh
+	if err != nil {
+		t.Fatal(err)
 	}
 }
 

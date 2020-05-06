@@ -192,16 +192,16 @@ func (tp *TestSuite) TestPinRecursive(t *testing.T) {
 		t.Errorf("unexpected path, %s != %s", list[0].Path().Cid().String(), p0.Cid().String())
 	}
 
-	res, err := api.Pin().Verify(ctx)
-	if err != nil {
-		t.Fatal(err)
-	}
+	res, errCh := api.Pin().Verify(ctx)
 	n := 0
 	for r := range res {
 		if !r.Ok() {
 			t.Error("expected pin to be ok")
 		}
 		n++
+	}
+	if err := <-errCh; err != nil {
+		t.Fatal(err)
 	}
 
 	if n != 1 {
@@ -583,19 +583,10 @@ func assertNotPinned(t *testing.T, ctx context.Context, api iface.CoreAPI, p pat
 	}
 }
 
-func accPins(pins <-chan iface.Pin, err error) ([]iface.Pin, error) {
-	if err != nil {
-		return nil, err
-	}
-
+func accPins(pins <-chan iface.Pin, err <-chan error) ([]iface.Pin, error) {
 	var result []iface.Pin
-
 	for pin := range pins {
-		if pin.Err() != nil {
-			return nil, pin.Err()
-		}
 		result = append(result, pin)
 	}
-
-	return result, nil
+	return result, <-err
 }
