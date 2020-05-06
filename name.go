@@ -38,5 +38,9 @@ type NameAPI interface {
 	//
 	// Note: by default, all paths read from the channel are considered unsafe,
 	// except the latest (last path in channel read buffer).
+	//
+	// Both returned channels will be closed when the request completes or is
+	// canceled. The error channel will yield at most one error and should
+	// be read after the path channel is closed.
 	Search(ctx context.Context, name string, opts ...options.NameResolveOption) (<-chan path.Path, <-chan error)
 }

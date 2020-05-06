@@ -40,7 +40,11 @@ type PinAPI interface {
 	// tree
 	Add(context.Context, path.Path, ...options.PinAddOption) error
 
-	// Ls returns list of pinned objects on this node
+	// Ls returns list of pinned objects on this node.
+	//
+	// Both returned channels will be closed when the request completes or is
+	// canceled. The error channel will yield at most one error and should
+	// be read after the path channel is closed.
 	Ls(context.Context, ...options.PinLsOption) (<-chan Pin, <-chan error)
 
 	// IsPinned returns whether or not the given cid is pinned
@@ -54,6 +58,14 @@ type PinAPI interface {
 	// the old tree
 	Update(ctx context.Context, from path.Path, to path.Path, opts ...options.PinUpdateOption) error
 
-	// Verify verifies the integrity of pinned objects
+	// Verify verifies the integrity of pinned objects.
+	//
+	// Both returned channels will be closed when the request completes or is
+	// canceled. The error channel will yield at most one error and should
+	// be read after the path channel is closed.
+	//
+	// The error channel will only yield an error if the verification
+	// process itself fails or is canceled. It will not yield an error when
+	// we fail to verify a pin.
 	Verify(context.Context) (<-chan PinStatus, <-chan error)
 }
