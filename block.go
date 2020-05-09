@@ -6,6 +6,10 @@ import (
 	"io"
 
 	"github.com/ipfs/interface-go-ipfs-core/options"
+
+	"github.com/libp2p/go-libp2p-core/peer"
+
+	"github.com/ipfs/go-cid"
 )
 
 // BlockStat contains information about a block
@@ -21,6 +25,8 @@ type BlockStat interface {
 type BlockAPI interface {
 	// Put imports raw block data, hashing it using specified settings.
 	Put(context.Context, io.Reader, ...options.BlockPutOption) (BlockStat, error)
+
+	Push(context.Context, uint32, peer.ID, cid.Cid) error
 
 	// Get attempts to resolve the path and return a reader for data in the block
 	Get(context.Context, path.Path) (io.Reader, error)
