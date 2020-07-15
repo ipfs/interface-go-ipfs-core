@@ -27,6 +27,9 @@ type KeyAPI interface {
 	// name and returns a base58 encoded multihash of it's public key
 	Generate(ctx context.Context, name string, opts ...options.KeyGenerateOption) (Key, error)
 
+	// Imports a key and stores in the keystore under the specified name
+	Import(ctx context.Context, name string, key []byte) (Key, error)
+
 	// Rename renames oldName key to newName. Returns the key and whether another
 	// key was overwritten, or an error
 	Rename(ctx context.Context, oldName string, newName string, opts ...options.KeyRenameOption) (Key, bool, error)
