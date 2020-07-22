@@ -10,6 +10,7 @@ require (
 	github.com/ipfs/go-unixfs v0.2.4
 	github.com/libp2p/go-libp2p-core v0.6.0
 	github.com/multiformats/go-multiaddr v0.2.2
+	github.com/multiformats/go-multibase v0.0.3
 	github.com/multiformats/go-multihash v0.0.13
 )
 
