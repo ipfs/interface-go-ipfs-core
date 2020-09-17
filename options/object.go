@@ -8,6 +8,7 @@ type ObjectPutSettings struct {
 	InputEnc string
 	DataType string
 	Pin      bool
+	PinPath  string
 }
 
 type ObjectAddLinkSettings struct {
@@ -37,6 +38,7 @@ func ObjectPutOptions(opts ...ObjectPutOption) (*ObjectPutSettings, error) {
 		InputEnc: "json",
 		DataType: "text",
 		Pin:      false,
+		PinPath:  "added/",
 	}
 
 	for _, opt := range opts {
@@ -110,6 +112,14 @@ func (objectOpts) DataType(t string) ObjectPutOption {
 func (objectOpts) Pin(pin bool) ObjectPutOption {
 	return func(settings *ObjectPutSettings) error {
 		settings.Pin = pin
+		return nil
+	}
+}
+
+// PinPath is an option for Object.Put which specifies under which path to pin the object, default is "added/"
+func (objectOpts) PinPath(pinPath string) ObjectPutOption {
+	return func(settings *ObjectPutSettings) error {
+		settings.PinPath = pinPath
 		return nil
 	}
 }

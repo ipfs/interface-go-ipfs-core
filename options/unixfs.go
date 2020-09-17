@@ -29,6 +29,7 @@ type UnixfsAddSettings struct {
 	Layout  Layout
 
 	Pin      bool
+	PinPath  string
 	OnlyHash bool
 	FsCache  bool
 	NoCopy   bool
@@ -59,6 +60,7 @@ func UnixfsAddOptions(opts ...UnixfsAddOption) (*UnixfsAddSettings, cid.Prefix, 
 		Layout:  BalancedLayout,
 
 		Pin:      false,
+		PinPath:  "added",
 		OnlyHash: false,
 		FsCache:  false,
 		NoCopy:   false,
@@ -220,6 +222,15 @@ func (unixfsOpts) Pin(pin bool) UnixfsAddOption {
 		return nil
 	}
 }
+
+// PinPath tells the adder the pin path to use
+func (unixfsOpts) PinPath(pinPath string) UnixfsAddOption {
+	return func(settings *UnixfsAddSettings) error {
+		settings.PinPath = pinPath
+		return nil
+	}
+}
+
 
 // HashOnly will make the adder calculate data hash without storing it in the
 // blockstore or announcing it to the network

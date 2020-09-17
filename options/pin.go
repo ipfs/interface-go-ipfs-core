@@ -5,11 +5,14 @@ import "fmt"
 // PinAddSettings represent the settings for PinAPI.Add
 type PinAddSettings struct {
 	Recursive bool
+	PinPath string
 }
 
 // PinLsSettings represent the settings for PinAPI.Ls
 type PinLsSettings struct {
-	Type string
+	Type      string
+	Recursive bool
+	PinPath string
 }
 
 // PinIsPinnedSettings represent the settings for PinAPI.IsPinned
@@ -24,7 +27,7 @@ type PinRmSettings struct {
 
 // PinUpdateSettings represent the settings for PinAPI.Update
 type PinUpdateSettings struct {
-	Unpin bool
+	
 }
 
 // PinAddOption is the signature of an option for PinAPI.Add
@@ -47,6 +50,7 @@ type PinUpdateOption func(*PinUpdateSettings) error
 func PinAddOptions(opts ...PinAddOption) (*PinAddSettings, error) {
 	options := &PinAddSettings{
 		Recursive: true,
+		PinPath: "default/",
 	}
 
 	for _, opt := range opts {
@@ -59,11 +63,13 @@ func PinAddOptions(opts ...PinAddOption) (*PinAddSettings, error) {
 	return options, nil
 }
 
+
 // PinLsOptions compile a series of PinLsOption into a ready to use
 // PinLsSettings and set the default values.
 func PinLsOptions(opts ...PinLsOption) (*PinLsSettings, error) {
 	options := &PinLsSettings{
-		Type: "all",
+		Type:      "all",
+		Recursive: false,
 	}
 
 	for _, opt := range opts {
@@ -112,9 +118,7 @@ func PinRmOptions(opts ...PinRmOption) (*PinRmSettings, error) {
 // PinUpdateOptions compile a series of PinUpdateOption into a ready to use
 // PinUpdateSettings and set the default values.
 func PinUpdateOptions(opts ...PinUpdateOption) (*PinUpdateSettings, error) {
-	options := &PinUpdateSettings{
-		Unpin: true,
-	}
+	options := &PinUpdateSettings{}
 
 	for _, opt := range opts {
 		err := opt(options)
@@ -129,6 +133,7 @@ func PinUpdateOptions(opts ...PinUpdateOption) (*PinUpdateSettings, error) {
 type pinOpts struct {
 	Ls       pinLsOpts
 	IsPinned pinIsPinnedOpts
+	Recursively bool
 }
 
 // Pin provide an access to all the options for the Pin API.
@@ -142,8 +147,8 @@ func (pinLsOpts) All() PinLsOption {
 	return Pin.Ls.pinType("all")
 }
 
-// Recursive is an option for Pin.Ls which will make it only return recursive
-// pins
+// Recursive is an option for Pin.Ls which will make it only return recursive (non
+// direct) pins
 func (pinLsOpts) Recursive() PinLsOption {
 	return Pin.Ls.pinType("recursive")
 }
@@ -158,6 +163,15 @@ func (pinLsOpts) Direct() PinLsOption {
 // (objects referenced by other recursively pinned objects)
 func (pinLsOpts) Indirect() PinLsOption {
 	return Pin.Ls.pinType("indirect")
+}
+
+// Recursive is an option for Pin.Ls which allows to specify whether
+// argument should be recursively searched for pins
+func (pinLsOpts) RecursiveList(recursive bool) PinLsOption {
+	return func(settings *PinLsSettings) error {
+		settings.Recursive = recursive
+		return nil
+	}
 }
 
 // Type is an option for Pin.Ls which will make it only return pins of the given
@@ -269,15 +283,6 @@ func (pinOpts) Recursive(recursive bool) PinAddOption {
 func (pinOpts) RmRecursive(recursive bool) PinRmOption {
 	return func(settings *PinRmSettings) error {
 		settings.Recursive = recursive
-		return nil
-	}
-}
-
-// Unpin is an option for Pin.Update which specifies whether to remove the old pin.
-// Default is true.
-func (pinOpts) Unpin(unpin bool) PinUpdateOption {
-	return func(settings *PinUpdateSettings) error {
-		settings.Unpin = unpin
 		return nil
 	}
 }

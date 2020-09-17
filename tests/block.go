@@ -237,7 +237,7 @@ func (tp *TestSuite) TestBlockPin(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	if pins, err := api.Pin().Ls(ctx); err != nil || len(pins) != 0 {
+	if pins, err := api.Pin().Ls(ctx, ""); err != nil || len(pins) != 0 {
 		t.Fatal("expected 0 pins")
 	}
 
@@ -251,7 +251,7 @@ func (tp *TestSuite) TestBlockPin(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	pins, err := accPins(api.Pin().Ls(ctx))
+	pins, err := accPins(api.Pin().Ls(ctx, "", opt.Pin.RecursiveList(true)))
 	if err != nil {
 		t.Fatal(err)
 	}
