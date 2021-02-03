@@ -28,6 +28,9 @@ type UnixfsAddSettings struct {
 	Chunker string
 	Layout  Layout
 
+	RawFileHash    uint64
+	RawFileHashSet bool
+
 	Pin      bool
 	OnlyHash bool
 	FsCache  bool
@@ -58,6 +61,9 @@ func UnixfsAddOptions(opts ...UnixfsAddOption) (*UnixfsAddSettings, cid.Prefix, 
 		Chunker: "size-262144",
 		Layout:  BalancedLayout,
 
+		RawFileHash:    0,
+		RawFileHashSet: false,
+
 		Pin:      false,
 		OnlyHash: false,
 		FsCache:  false,
@@ -80,6 +86,17 @@ func UnixfsAddOptions(opts ...UnixfsAddOption) (*UnixfsAddSettings, cid.Prefix, 
 		// fixed?
 		if options.RawLeavesSet {
 			return nil, cid.Prefix{}, fmt.Errorf("nocopy option requires '--raw-leaves' to be enabled as well")
+		}
+
+		// No, satisfy mandatory constraint.
+		options.RawLeaves = true
+	}
+
+	// RawFileHash -> rawblocks
+	if options.RawFileHashSet && !options.RawLeaves {
+		// fixed?
+		if options.RawLeavesSet {
+			return nil, cid.Prefix{}, fmt.Errorf("enabling the raw-file-hash option requires '--raw-leaves' to be enabled as well")
 		}
 
 		// No, satisfy mandatory constraint.
@@ -209,6 +226,17 @@ func (unixfsOpts) Chunker(chunker string) UnixfsAddOption {
 func (unixfsOpts) Layout(layout Layout) UnixfsAddOption {
 	return func(settings *UnixfsAddSettings) error {
 		settings.Layout = layout
+		return nil
+	}
+}
+
+// RawFileHash specifies whether to store and make the files available as a
+// single hash of the bytes (e.g. like `sha256sum file`) in addition to as a
+// chunked up UnixFS DAG. Implies RawLeaves
+func (unixfsOpts) RawFileHash(mhType uint64) UnixfsAddOption {
+	return func(settings *UnixfsAddSettings) error {
+		settings.RawFileHash = mhType
+		settings.RawFileHashSet = true
 		return nil
 	}
 }
