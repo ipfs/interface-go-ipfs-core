@@ -138,7 +138,7 @@ func (tp *TestSuite) TestInvalidPathRemainder(t *testing.T) {
 	}
 
 	_, err = api.ResolvePath(ctx, path.New("/ipld/"+nd.Cid().String()+"/bar/baz"))
-	if err == nil || !strings.Contains(err.Error(), "key not found") {
+	if err == nil || !strings.Contains(err.Error(), "no link named") {
 		t.Fatalf("unexpected error: %s", err)
 	}
 }
