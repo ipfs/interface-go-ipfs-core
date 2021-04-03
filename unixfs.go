@@ -2,18 +2,21 @@ package iface
 
 import (
 	"context"
-	"github.com/ipfs/interface-go-ipfs-core/options"
-	path "github.com/ipfs/interface-go-ipfs-core/path"
-
 	"github.com/ipfs/go-cid"
 	"github.com/ipfs/go-ipfs-files"
+	"github.com/ipfs/interface-go-ipfs-core/options"
+	path "github.com/ipfs/interface-go-ipfs-core/path"
+	"os"
 )
 
 type AddEvent struct {
-	Name  string
-	Path  path.Resolved `json:",omitempty"`
-	Bytes int64         `json:",omitempty"`
-	Size  string        `json:",omitempty"`
+	Name       string
+	Path       path.Resolved `json:",omitempty"`
+	Bytes      int64         `json:",omitempty"`
+	Size       string        `json:",omitempty"`
+	Mode       os.FileMode   `json:",omitempty"`
+	Mtime      int64         `json:",omitempty"`
+	MtimeNsecs int           `json:",omitempty"`
 }
 
 // FileType is an enum of possible UnixFS file types.
