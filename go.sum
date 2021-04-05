@@ -212,8 +212,8 @@ github.com/ipfs/go-merkledag v0.3.2 h1:MRqj40QkrWkvPswXs4EfSslhZ4RVPRbxwX11js0t1
 github.com/ipfs/go-merkledag v0.3.2/go.mod h1:fvkZNNZixVW6cKSZ/JfLlON5OlgTXNdRLz0p6QG/I2M=
 github.com/ipfs/go-metrics-interface v0.0.1 h1:j+cpbjYvu4R8zbleSs36gvB7jR+wsL2fGD6n0jO4kdg=
 github.com/ipfs/go-metrics-interface v0.0.1/go.mod h1:6s6euYU4zowdslK0GKHmqaIZ3j/b/tL7HTWtJ4VPgWY=
-github.com/ipfs/go-path v0.0.10-0.20210405185612-bc2ed47be17e h1:ZZ/UqIpSOVglljGDxwJEJFe1UMsl4qYOAMqXYrbmvnE=
-github.com/ipfs/go-path v0.0.10-0.20210405185612-bc2ed47be17e/go.mod h1:StkbCaRBz+urcOcgVoj/6w4wwT96uwnJjDSM7c4UJw4=
+github.com/ipfs/go-path v0.0.10-0.20210405201800-40f1060226f7 h1:Sh4fY6j1NxxwbN7ux9gzKC8ve85Jhs5TwxZMJOuLXCo=
+github.com/ipfs/go-path v0.0.10-0.20210405201800-40f1060226f7/go.mod h1:g8egwymo/MjfPUu/ojghk4YQKwjn6MGO+UUv4eUw08M=
 github.com/ipfs/go-peertaskqueue v0.1.0/go.mod h1:Jmk3IyCcfl1W3jTW3YpghSwSEC6IJ3Vzz/jUmWw8Z0U=
 github.com/ipfs/go-peertaskqueue v0.1.1/go.mod h1:Jmk3IyCcfl1W3jTW3YpghSwSEC6IJ3Vzz/jUmWw8Z0U=
 github.com/ipfs/go-peertaskqueue v0.2.0 h1:2cSr7exUGKYyDeUyQ7P/nHPs9P7Ht/B+ROrpN1EJOjc=
@@ -221,8 +221,8 @@ github.com/ipfs/go-peertaskqueue v0.2.0/go.mod h1:5/eNrBEbtSKWCG+kQK8K8fGNixoYUn
 github.com/ipfs/go-unixfs v0.2.4 h1:6NwppOXefWIyysZ4LR/qUBPvXd5//8J3jiMdvpbw6Lo=
 github.com/ipfs/go-unixfs v0.2.4/go.mod h1:SUdisfUjNoSDzzhGVxvCL9QO/nKdwXdr+gbMUdqcbYw=
 github.com/ipfs/go-unixfsnode v1.0.1-0.20210402214142-de45652f269f/go.mod h1:Xk4qvd3Nb8H31OJapZrLDAE4aBNmKUCvAzypIUZ3ACQ=
-github.com/ipfs/go-unixfsnode v1.1.0 h1:lAXHg+v5F8H1a5T/oJLqbYtsZfgC7HgTIDWhMTBmsOA=
-github.com/ipfs/go-unixfsnode v1.1.0/go.mod h1:Xk4qvd3Nb8H31OJapZrLDAE4aBNmKUCvAzypIUZ3ACQ=
+github.com/ipfs/go-unixfsnode v1.1.1 h1:YjYe5nQgkloOVlyRUumVGke7ngRFRZmtbI866YkTUgM=
+github.com/ipfs/go-unixfsnode v1.1.1/go.mod h1:Xk4qvd3Nb8H31OJapZrLDAE4aBNmKUCvAzypIUZ3ACQ=
 github.com/ipfs/go-verifcid v0.0.1 h1:m2HI7zIuR5TFyQ1b79Da5N9dnnCP1vcu2QqawmWlK2E=
 github.com/ipfs/go-verifcid v0.0.1/go.mod h1:5Hrva5KBeIog4A+UpqlaIU+DEstipcJYQQZc0g37pY0=
 github.com/ipld/go-codec-dagpb v1.2.0/go.mod h1:6nBN7X7h8EOsEejZGqC7tej5drsdBAXbMHyBT+Fne5s=

@@ -8,7 +8,7 @@ require (
 	github.com/ipfs/go-ipld-cbor v0.0.4
 	github.com/ipfs/go-ipld-format v0.2.0
 	github.com/ipfs/go-merkledag v0.3.2
-	github.com/ipfs/go-path v0.0.10-0.20210405185612-bc2ed47be17e
+	github.com/ipfs/go-path v0.0.10-0.20210405201800-40f1060226f7
 	github.com/ipfs/go-unixfs v0.2.4
 	github.com/libp2p/go-libp2p-core v0.7.0
 	github.com/multiformats/go-multiaddr v0.3.1
