@@ -1,8 +1,6 @@
 package iface
 
 import (
-	"context"
-
 	"github.com/ipfs/go-dagwriter"
 	"github.com/ipfs/go-fetcher"
 )
@@ -11,8 +9,8 @@ import (
 // through go-ipld-prime. It is a combination of DagWritingService (for writes)
 // and Fetcher (for reads)
 type NodeAPI interface {
-	// NewSession returns an instance of the Fetcher
-	NewSession(ctx context.Context) fetcher.Fetcher
+	// fetcher.Factory provides the interface to get new dag fetchers
+	fetcher.Factory
 
 	// DagWritingService implements methods to write dags
 	dagwriter.DagWritingService
