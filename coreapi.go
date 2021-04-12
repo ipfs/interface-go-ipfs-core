@@ -43,6 +43,9 @@ type CoreAPI interface {
 	// PubSub returns an implementation of PubSub API
 	PubSub() PubSubAPI
 
+	// DNS returns an implementation of DNS API
+	DNS() DNSAPI
+
 	// ResolvePath resolves the path using Unixfs resolver
 	ResolvePath(context.Context, path.Path) (path.Resolved, error)
 
