@@ -12,6 +12,7 @@ require (
 	github.com/multiformats/go-multiaddr v0.2.2
 	github.com/multiformats/go-multibase v0.0.3
 	github.com/multiformats/go-multihash v0.0.13
+	github.com/ipfs/go-namesys v0.3.1
 )
 
 go 1.13
