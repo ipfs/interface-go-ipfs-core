@@ -19,6 +19,9 @@ type DhtAPI interface {
 
 	// FindProviders finds peers in the DHT who can provide a specific value
 	// given a key.
+	//
+	// The returned channel will be closed when the request completes or is
+	// canceled.
 	FindProviders(context.Context, path.Path, ...options.DhtFindProvidersOption) (<-chan peer.AddrInfo, error)
 
 	// Provide announces to the network that you are providing given values
