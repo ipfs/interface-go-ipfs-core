@@ -11,6 +11,7 @@ type BlockPutSettings struct {
 	MhType   uint64
 	MhLength int
 	Pin      bool
+	PinPath  string
 }
 
 type BlockRmSettings struct {
@@ -26,6 +27,7 @@ func BlockPutOptions(opts ...BlockPutOption) (*BlockPutSettings, cid.Prefix, err
 		MhType:   mh.SHA2_256,
 		MhLength: -1,
 		Pin:      false,
+		PinPath:  "default/",
 	}
 
 	for _, opt := range opts {
@@ -112,6 +114,14 @@ func (blockOpts) Hash(mhType uint64, mhLen int) BlockPutOption {
 func (blockOpts) Pin(pin bool) BlockPutOption {
 	return func(settings *BlockPutSettings) error {
 		settings.Pin = pin
+		return nil
+	}
+}
+
+// PinPath is an option for Block.Put which specifies under which path to pin the block, default is "added/"
+func (blockOpts) PinPath(pinPath string) BlockPutOption {
+	return func(settings *BlockPutSettings) error {
+		settings.PinPath = pinPath
 		return nil
 	}
 }

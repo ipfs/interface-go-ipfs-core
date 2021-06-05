@@ -11,7 +11,10 @@ import (
 type Pin interface {
 	// Path to the pinned object
 	Path() path.Resolved
-
+	
+	// Pinpath of pinned object
+	PinPath() string
+	
 	// Type of the pin
 	Type() string
 
@@ -23,6 +26,9 @@ type Pin interface {
 type PinStatus interface {
 	// Ok indicates whether the pin has been verified to be correct
 	Ok() bool
+	
+	// Pinpath of pinned object
+	PinPath() string
 
 	// BadNodes returns any bad (usually missing) nodes from the pin
 	BadNodes() []BadPinNode
@@ -41,22 +47,22 @@ type BadPinNode interface {
 type PinAPI interface {
 	// Add creates new pin, be default recursive - pinning the whole referenced
 	// tree
-	Add(context.Context, path.Path, ...options.PinAddOption) error
+	Add(context.Context, string, path.Path, ...options.PinAddOption) error
 
 	// Ls returns list of pinned objects on this node
-	Ls(context.Context, ...options.PinLsOption) (<-chan Pin, error)
-
-	// IsPinned returns whether or not the given cid is pinned
-	// and an explanation of why its pinned
-	IsPinned(context.Context, path.Path, ...options.PinIsPinnedOption) (string, bool, error)
+	Ls(context.Context, string, ...options.PinLsOption) (<-chan Pin, error)
 
 	// Rm removes pin for object specified by the path
-	Rm(context.Context, path.Path, ...options.PinRmOption) error
+	Rm(context.Context, string, ...options.PinRmOption) error
 
 	// Update changes one pin to another, skipping checks for matching paths in
 	// the old tree
-	Update(ctx context.Context, from path.Path, to path.Path, opts ...options.PinUpdateOption) error
+	Update(ctx context.Context, from string, to path.Path, opts ...options.PinUpdateOption) error
 
 	// Verify verifies the integrity of pinned objects
 	Verify(context.Context) (<-chan PinStatus, error)
+	
+	// IsPinned returns whether or not the given cid is pinned
+	// and an explanation of why its pinned
+	IsPinned(context.Context, path.Path, ...options.PinIsPinnedOption) (string, bool, error)
 }

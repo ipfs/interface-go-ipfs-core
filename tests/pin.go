@@ -15,6 +15,8 @@ import (
 	ipld "github.com/ipfs/go-ipld-format"
 )
 
+var testPrefix = "test/"
+
 func (tp *TestSuite) TestPin(t *testing.T) {
 	tp.hasApi(t, func(api iface.CoreAPI) error {
 		if api.Pin() == nil {
@@ -44,7 +46,7 @@ func (tp *TestSuite) TestPinAdd(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	err = api.Pin().Add(ctx, p)
+	err = api.Pin().Add(ctx, testPrefix, p)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -63,12 +65,12 @@ func (tp *TestSuite) TestPinSimple(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	err = api.Pin().Add(ctx, p)
+	err = api.Pin().Add(ctx, testPrefix, p)
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	list, err := accPins(api.Pin().Ls(ctx))
+	list, err := accPins(api.Pin().Ls(ctx, testPrefix, opt.Pin.Ls.Recursive()))
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -87,12 +89,12 @@ func (tp *TestSuite) TestPinSimple(t *testing.T) {
 
 	assertIsPinned(t, ctx, api, p, "recursive")
 
-	err = api.Pin().Rm(ctx, p)
+	err = api.Pin().Rm(ctx, testPrefix+p.Cid().String())
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	list, err = accPins(api.Pin().Ls(ctx))
+	list, err = accPins(api.Pin().Ls(ctx, testPrefix, opt.Pin.Ls.Recursive()))
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -144,7 +146,7 @@ func (tp *TestSuite) TestPinRecursive(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	list, err := accPins(api.Pin().Ls(ctx))
+	list, err := accPins(api.Pin().Ls(ctx, testPrefix, opt.Pin.RecursiveList(true)))
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -153,7 +155,7 @@ func (tp *TestSuite) TestPinRecursive(t *testing.T) {
 		t.Errorf("unexpected pin list len: %d", len(list))
 	}
 
-	list, err = accPins(api.Pin().Ls(ctx, opt.Pin.Ls.Direct()))
+	list, err = accPins(api.Pin().Ls(ctx, testPrefix, opt.Pin.RecursiveList(true), opt.Pin.Ls.Direct()))
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -166,7 +168,7 @@ func (tp *TestSuite) TestPinRecursive(t *testing.T) {
 		t.Errorf("unexpected path, %s != %s", list[0].Path().String(), path.IpfsPath(nd3.Cid()).String())
 	}
 
-	list, err = accPins(api.Pin().Ls(ctx, opt.Pin.Ls.Recursive()))
+	list, err = accPins(api.Pin().Ls(ctx, testPrefix, opt.Pin.RecursiveList(true), opt.Pin.Ls.Recursive()))
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -179,7 +181,7 @@ func (tp *TestSuite) TestPinRecursive(t *testing.T) {
 		t.Errorf("unexpected path, %s != %s", list[0].Path().String(), path.IpldPath(nd2.Cid()).String())
 	}
 
-	list, err = accPins(api.Pin().Ls(ctx, opt.Pin.Ls.Indirect()))
+	list, err = accPins(api.Pin().Ls(ctx, testPrefix, opt.Pin.RecursiveList(true), opt.Pin.Ls.Indirect()))
 	if err != nil {
 		t.Fatal(err)
 	}
