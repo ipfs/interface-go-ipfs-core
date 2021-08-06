@@ -23,8 +23,6 @@ type CoreAPI interface {
 	// Dag returns an implementation of Dag API
 	Dag() APIDagService
 
-	Node() NodeAPI
-
 	// Name returns an implementation of Name API
 	Name() NameAPI
 
