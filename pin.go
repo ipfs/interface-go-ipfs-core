@@ -59,4 +59,7 @@ type PinAPI interface {
 
 	// Verify verifies the integrity of pinned objects
 	Verify(context.Context) (<-chan PinStatus, error)
+
+	// Remove all pins and return the number of pins removed
+	RemoveAll(context.Context) (int, error)
 }
