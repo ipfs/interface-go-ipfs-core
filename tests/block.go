@@ -40,6 +40,7 @@ func (tp *TestSuite) TestBlock(t *testing.T) {
 
 	t.Run("TestBlockPut", tp.TestBlockPut)
 	t.Run("TestBlockPutFormat", tp.TestBlockPutFormat)
+	t.Run("TestBlockPutStoreCodec", tp.TestBlockPutStoreCodec)
 	t.Run("TestBlockPutHash", tp.TestBlockPutHash)
 	t.Run("TestBlockGet", tp.TestBlockGet)
 	t.Run("TestBlockRm", tp.TestBlockRm)
@@ -74,6 +75,24 @@ func (tp *TestSuite) TestBlockPutFormat(t *testing.T) {
 	}
 
 	res, err := api.Block().Put(ctx, cborBlock(), opt.Block.Format("cbor"))
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if res.Path().Cid().String() != cborCid {
+		t.Errorf("got wrong cid: %s", res.Path().Cid().String())
+	}
+}
+
+func (tp *TestSuite) TestBlockPutStoreCodec(t *testing.T) {
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+	api, err := tp.makeAPI(ctx)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	res, err := api.Block().Put(ctx, cborBlock(), opt.Block.StoreCodec("cbor"))
 	if err != nil {
 		t.Fatal(err)
 	}
