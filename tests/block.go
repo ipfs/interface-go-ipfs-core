@@ -92,7 +92,7 @@ func (tp *TestSuite) TestBlockPutStoreCodec(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	res, err := api.Block().Put(ctx, cborBlock(), opt.Block.StoreCodec("cbor"))
+	res, err := api.Block().Put(ctx, cborBlock(), opt.Block.StoreCodec("dag-cbor"))
 	if err != nil {
 		t.Fatal(err)
 	}
