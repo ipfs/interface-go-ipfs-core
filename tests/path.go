@@ -2,10 +2,11 @@ package tests
 
 import (
 	"context"
-	"github.com/ipfs/interface-go-ipfs-core/path"
 	"math"
 	"strings"
 	"testing"
+
+	"github.com/ipfs/interface-go-ipfs-core/path"
 
 	"github.com/ipfs/interface-go-ipfs-core/options"
 
@@ -138,7 +139,7 @@ func (tp *TestSuite) TestInvalidPathRemainder(t *testing.T) {
 	}
 
 	_, err = api.ResolvePath(ctx, path.New("/ipld/"+nd.Cid().String()+"/bar/baz"))
-	if err == nil || !strings.Contains(err.Error(), "no such link found") {
+	if err == nil || !strings.Contains(err.Error(), `no link named "bar"`) {
 		t.Fatalf("unexpected error: %s", err)
 	}
 }
