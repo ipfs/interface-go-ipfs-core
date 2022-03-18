@@ -4,8 +4,8 @@ require (
 	github.com/ipfs/go-cid v0.0.7
 	github.com/ipfs/go-ipfs-files v0.0.8
 	github.com/ipfs/go-ipld-cbor v0.0.5
-	github.com/ipfs/go-ipld-format v0.2.1-0.20220302134852-d02e0e18fc65
-	github.com/ipfs/go-merkledag v0.5.2-0.20220317231502-af90f1ade665
+	github.com/ipfs/go-ipld-format v0.3.0
+	github.com/ipfs/go-merkledag v0.6.0
 	github.com/ipfs/go-path v0.1.1
 	github.com/ipfs/go-unixfs v0.2.4
 	github.com/klauspost/cpuid/v2 v2.0.6 // indirect
