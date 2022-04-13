@@ -19,6 +19,7 @@ import (
 var (
 	pbCidV0  = "QmZULkCELmmk5XNfCgTnCyFgAVxBRBXyDHGGMVoLFLiXEN"                                                                 // dag-pb
 	pbCid    = "bafybeiffndsajwhk3lwjewwdxqntmjm4b5wxaaanokonsggenkbw6slwk4"                                                    // dag-pb
+	rawCid   = "bafkreiffndsajwhk3lwjewwdxqntmjm4b5wxaaanokonsggenkbw6slwk4"                                                    // raw bytes
 	cborCid  = "bafyreicnga62zhxnmnlt6ymq5hcbsg7gdhqdu6z4ehu3wpjhvqnflfy6nm"                                                    // dag-cbor
 	cborKCid = "bafyr2qgsohbwdlk7ajmmbb4lhoytmest4wdbe5xnexfvtxeatuyqqmwv3fgxp3pmhpc27gwey2cct56gloqefoqwcf3yqiqzsaqb7p4jefhcw" // dag-cbor keccak-512
 )
@@ -41,7 +42,8 @@ func (tp *TestSuite) TestBlock(t *testing.T) {
 		return nil
 	})
 
-	t.Run("TestBlockPut", tp.TestBlockPut)
+	t.Run("TestBlockPut (get raw CIDv1)", tp.TestBlockPut)
+	t.Run("TestBlockPutCidCodec: dag-pb", tp.TestBlockPutCidCodecDagPb)
 	t.Run("TestBlockPutCidCodec: dag-cbor", tp.TestBlockPutCidCodecDagCbor)
 	t.Run("TestBlockPutFormat (legacy): cbor → dag-cbor", tp.TestBlockPutFormatDagCbor)
 	t.Run("TestBlockPutFormat (legacy): protobuf → dag-pb", tp.TestBlockPutFormatDagPb)
@@ -53,6 +55,7 @@ func (tp *TestSuite) TestBlock(t *testing.T) {
 	t.Run("TestBlockPin", tp.TestBlockPin)
 }
 
+// when no opts are passed, produced CID has 'raw' codec
 func (tp *TestSuite) TestBlockPut(t *testing.T) {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
@@ -66,7 +69,7 @@ func (tp *TestSuite) TestBlockPut(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	if res.Path().Cid().String() != pbCid {
+	if res.Path().Cid().String() != rawCid {
 		t.Errorf("got wrong cid: %s", res.Path().Cid().String())
 	}
 }
