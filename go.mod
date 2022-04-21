@@ -11,6 +11,7 @@ require (
 	github.com/libp2p/go-libp2p-core v0.8.5
 	github.com/multiformats/go-multiaddr v0.3.3
 	github.com/multiformats/go-multibase v0.0.3
+	github.com/multiformats/go-multicodec v0.3.0
 	github.com/multiformats/go-multihash v0.0.15
 )
 
