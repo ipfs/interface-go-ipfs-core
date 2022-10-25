@@ -5,9 +5,7 @@ import (
 	"context"
 	"encoding/hex"
 	"fmt"
-	"github.com/ipfs/interface-go-ipfs-core/path"
 	"io"
-	"io/ioutil"
 	"math"
 	"math/rand"
 	"os"
@@ -16,12 +14,15 @@ import (
 	"sync"
 	"testing"
 
+	"github.com/ipfs/interface-go-ipfs-core/path"
+
 	coreiface "github.com/ipfs/interface-go-ipfs-core"
 	"github.com/ipfs/interface-go-ipfs-core/options"
 
 	"github.com/ipfs/go-cid"
-	"github.com/ipfs/go-ipfs-files"
+	files "github.com/ipfs/go-ipfs-files"
 	cbor "github.com/ipfs/go-ipld-cbor"
+	ipld "github.com/ipfs/go-ipld-format"
 	mdag "github.com/ipfs/go-merkledag"
 	"github.com/ipfs/go-unixfs"
 	"github.com/ipfs/go-unixfs/importer/helpers"
@@ -111,7 +112,7 @@ func (tp *TestSuite) TestAdd(t *testing.T) {
 		return path.IpfsPath(c)
 	}
 
-	rf, err := ioutil.TempFile(os.TempDir(), "unixfs-add-real")
+	rf, err := os.CreateTemp(os.TempDir(), "unixfs-add-real")
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -132,7 +133,7 @@ func (tp *TestSuite) TestAdd(t *testing.T) {
 	defer os.Remove(rfp)
 
 	realFile := func() files.Node {
-		n, err := files.NewReaderPathFile(rfp, ioutil.NopCloser(strings.NewReader(helloStr)), stat)
+		n, err := files.NewReaderPathFile(rfp, io.NopCloser(strings.NewReader(helloStr)), stat)
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -472,12 +473,12 @@ func (tp *TestSuite) TestAdd(t *testing.T) {
 					defer orig.Close()
 					defer got.Close()
 
-					do, err := ioutil.ReadAll(orig.(files.File))
+					do, err := io.ReadAll(orig.(files.File))
 					if err != nil {
 						t.Fatal(err)
 					}
 
-					dg, err := ioutil.ReadAll(got.(files.File))
+					dg, err := io.ReadAll(got.(files.File))
 					if err != nil {
 						t.Fatal(err)
 					}
@@ -576,7 +577,7 @@ func (tp *TestSuite) TestAddHashOnly(t *testing.T) {
 	if err == nil {
 		t.Fatal("expected an error")
 	}
-	if !strings.Contains(err.Error(), "blockservice: key not found") {
+	if !ipld.IsNotFound(err) {
 		t.Errorf("unxepected error: %s", err.Error())
 	}
 }
