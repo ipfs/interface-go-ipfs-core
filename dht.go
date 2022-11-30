@@ -7,7 +7,7 @@ import (
 
 	"github.com/ipfs/interface-go-ipfs-core/options"
 
-	"github.com/libp2p/go-libp2p-core/peer"
+	"github.com/libp2p/go-libp2p/core/peer"
 )
 
 // DhtAPI specifies the interface to the DHT
