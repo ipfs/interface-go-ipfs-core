@@ -72,3 +72,48 @@ func ProcessOpts(opts []ResolveOpt) ResolveOpts {
 	}
 	return rsopts
 }
+
+// defaultRecordEOL specifies the time that the network will cache IPNS
+// records after being published. Records should be re-published before this
+// interval expires. We use the same default expiration as the DHT.
+const defaultRecordEOL = 48 * time.Hour
+
+// PublishOptions specifies options for publishing an IPNS record.
+type PublishOptions struct {
+	EOL time.Time
+	TTL time.Duration
+}
+
+// DefaultPublishOptions returns the default options for publishing an IPNS record.
+func DefaultPublishOptions() PublishOptions {
+	return PublishOptions{
+		EOL: time.Now().Add(defaultRecordEOL),
+		TTL: time.Minute,
+	}
+}
+
+// PublishOption is used to set an option for PublishOpts.
+type PublishOption func(*PublishOptions)
+
+// PublishWithEOL sets an EOL.
+func PublishWithEOL(eol time.Time) PublishOption {
+	return func(o *PublishOptions) {
+		o.EOL = eol
+	}
+}
+
+// PublishWithEOL sets a TTL.
+func PublishWithTTL(ttl time.Duration) PublishOption {
+	return func(o *PublishOptions) {
+		o.TTL = ttl
+	}
+}
+
+// ProcessPublishOptions converts an array of PublishOpt into a PublishOpts object.
+func ProcessPublishOptions(opts []PublishOption) PublishOptions {
+	rsopts := DefaultPublishOptions()
+	for _, option := range opts {
+		option(&rsopts)
+	}
+	return rsopts
+}
