@@ -2,14 +2,14 @@ module github.com/ipfs/interface-go-ipfs-core
 
 require (
 	github.com/ipfs/go-cid v0.3.2
-	github.com/ipfs/go-ipfs-files v0.0.8
 	github.com/ipfs/go-ipld-cbor v0.0.5
 	github.com/ipfs/go-ipld-format v0.3.0
+	github.com/ipfs/go-libipfs v0.0.0-20230111124659-ad29d57a4248
 	github.com/ipfs/go-merkledag v0.6.0
 	github.com/ipfs/go-path v0.1.1
 	github.com/ipfs/go-unixfs v0.2.4
 	github.com/libp2p/go-libp2p v0.23.4
-	github.com/multiformats/go-multiaddr v0.7.0
+	github.com/multiformats/go-multiaddr v0.8.0
 	github.com/multiformats/go-multibase v0.1.1
 	github.com/multiformats/go-multicodec v0.6.0
 	github.com/multiformats/go-multihash v0.2.1
@@ -29,6 +29,7 @@ require (
 	github.com/ipfs/go-ipfs-chunker v0.0.1 // indirect
 	github.com/ipfs/go-ipfs-ds-help v1.1.0 // indirect
 	github.com/ipfs/go-ipfs-exchange-interface v0.1.0 // indirect
+	github.com/ipfs/go-ipfs-files v0.0.8 // indirect
 	github.com/ipfs/go-ipfs-posinfo v0.0.1 // indirect
 	github.com/ipfs/go-ipfs-util v0.0.2 // indirect
 	github.com/ipfs/go-ipld-legacy v0.1.0 // indirect
