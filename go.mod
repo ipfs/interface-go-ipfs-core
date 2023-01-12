@@ -4,7 +4,7 @@ require (
 	github.com/ipfs/go-cid v0.3.2
 	github.com/ipfs/go-ipld-cbor v0.0.5
 	github.com/ipfs/go-ipld-format v0.3.0
-	github.com/ipfs/go-libipfs v0.0.0-20230111124659-ad29d57a4248
+	github.com/ipfs/go-libipfs v0.1.0
 	github.com/ipfs/go-merkledag v0.6.0
 	github.com/ipfs/go-path v0.1.1
 	github.com/ipfs/go-unixfs v0.2.4
