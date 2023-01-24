@@ -13,6 +13,11 @@ const (
 	// trust resolution to eventually complete and can't put an upper
 	// limit on how many steps it will take.
 	UnlimitedDepth = 0
+
+	// DefaultIPNSRecordEOL specifies the time that the network will cache IPNS
+	// records after being published. Records should be re-published before this
+	// interval expires. We use the same default expiration as the DHT.
+	DefaultIPNSRecordEOL = 48 * time.Hour
 )
 
 // ResolveOpts specifies options for resolving an IPNS path
@@ -73,11 +78,6 @@ func ProcessOpts(opts []ResolveOpt) ResolveOpts {
 	return rsopts
 }
 
-// defaultRecordEOL specifies the time that the network will cache IPNS
-// records after being published. Records should be re-published before this
-// interval expires. We use the same default expiration as the DHT.
-const defaultRecordEOL = 48 * time.Hour
-
 // PublishOptions specifies options for publishing an IPNS record.
 type PublishOptions struct {
 	EOL time.Time
@@ -87,7 +87,7 @@ type PublishOptions struct {
 // DefaultPublishOptions returns the default options for publishing an IPNS record.
 func DefaultPublishOptions() PublishOptions {
 	return PublishOptions{
-		EOL: time.Now().Add(defaultRecordEOL),
+		EOL: time.Now().Add(DefaultIPNSRecordEOL),
 		TTL: time.Minute,
 	}
 }
