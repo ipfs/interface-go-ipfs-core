@@ -14,6 +14,10 @@ const (
 	// limit on how many steps it will take.
 	UnlimitedDepth = 0
 
+	// DefaultIPNSRecordTTL specifies the time that the record can be cached
+	// before checking if its validity again.
+	DefaultIPNSRecordTTL = time.Minute
+
 	// DefaultIPNSRecordEOL specifies the time that the network will cache IPNS
 	// records after being published. Records should be re-published before this
 	// interval expires. We use the same default expiration as the DHT.
@@ -88,7 +92,7 @@ type PublishOptions struct {
 func DefaultPublishOptions() PublishOptions {
 	return PublishOptions{
 		EOL: time.Now().Add(DefaultIPNSRecordEOL),
-		TTL: time.Minute,
+		TTL: DefaultIPNSRecordTTL,
 	}
 }
 
