@@ -1,9 +1,11 @@
 module github.com/ipfs/interface-go-ipfs-core
 
 require (
+	github.com/gogo/protobuf v1.3.2
 	github.com/ipfs/go-cid v0.3.2
 	github.com/ipfs/go-ipld-cbor v0.0.5
 	github.com/ipfs/go-ipld-format v0.3.0
+	github.com/ipfs/go-ipns v0.3.0
 	github.com/ipfs/go-libipfs v0.1.0
 	github.com/ipfs/go-merkledag v0.6.0
 	github.com/ipfs/go-path v0.1.1
@@ -18,7 +20,6 @@ require (
 require (
 	github.com/crackcomm/go-gitignore v0.0.0-20170627025303-887ab5e44cc3 // indirect
 	github.com/decred/dcrd/dcrec/secp256k1/v4 v4.1.0 // indirect
-	github.com/gogo/protobuf v1.3.2 // indirect
 	github.com/google/uuid v1.3.0 // indirect
 	github.com/hashicorp/golang-lru v0.5.4 // indirect
 	github.com/ipfs/bbloom v0.0.4 // indirect
