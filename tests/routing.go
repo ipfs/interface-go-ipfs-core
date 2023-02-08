@@ -8,6 +8,7 @@ import (
 	"github.com/gogo/protobuf/proto"
 	ipns_pb "github.com/ipfs/go-ipns/pb"
 	iface "github.com/ipfs/interface-go-ipfs-core"
+	"github.com/ipfs/interface-go-ipfs-core/path"
 )
 
 func (tp *TestSuite) TestRouting(t *testing.T) {
@@ -48,9 +49,10 @@ func (tp *TestSuite) TestRoutingGet(t *testing.T) {
 
 	// Node 1: publishes an IPNS name
 	ipnsEntry := tp.testRoutingPublishKey(t, ctx, apis[0])
+	ipnsPath := path.Join(path.New("/ipns"), ipnsEntry.Name())
 
 	// Node 2: retrieves the best value for the IPNS name.
-	data, err := apis[1].Routing().Get(ctx, "/ipns/"+ipnsEntry.Name())
+	data, err := apis[1].Routing().Get(ctx, ipnsPath)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -77,15 +79,16 @@ func (tp *TestSuite) TestRoutingPut(t *testing.T) {
 
 	// Create and publish IPNS entry.
 	ipnsEntry := tp.testRoutingPublishKey(t, ctx, apis[0])
+	ipnsPath := path.Join(path.New("/ipns"), ipnsEntry.Name())
 
 	// Get valid routing value.
-	data, err := apis[0].Routing().Get(ctx, "/ipns/"+ipnsEntry.Name())
+	data, err := apis[0].Routing().Get(ctx, ipnsPath)
 	if err != nil {
 		t.Fatal(err)
 	}
 
 	// Put routing value.
-	err = apis[0].Routing().Put(ctx, "/ipns/"+ipnsEntry.Name(), data)
+	err = apis[0].Routing().Put(ctx, ipnsPath, data)
 	if err != nil {
 		t.Fatal(err)
 	}
