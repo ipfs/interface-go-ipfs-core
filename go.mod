@@ -7,7 +7,7 @@ require (
 	github.com/ipfs/go-ipld-format v0.3.0
 	github.com/ipfs/go-ipns v0.3.0
 	github.com/ipfs/go-libipfs v0.1.0
-	github.com/ipfs/go-merkledag v0.6.0
+	github.com/ipfs/go-merkledag v0.8.1
 	github.com/ipfs/go-path v0.1.1
 	github.com/ipfs/go-unixfs v0.2.4
 	github.com/libp2p/go-libp2p v0.23.4
@@ -38,8 +38,8 @@ require (
 	github.com/ipfs/go-log/v2 v2.5.1 // indirect
 	github.com/ipfs/go-metrics-interface v0.0.1 // indirect
 	github.com/ipfs/go-verifcid v0.0.1 // indirect
-	github.com/ipld/go-codec-dagpb v1.3.0 // indirect
-	github.com/ipld/go-ipld-prime v0.11.0 // indirect
+	github.com/ipld/go-codec-dagpb v1.3.1 // indirect
+	github.com/ipld/go-ipld-prime v0.16.0 // indirect
 	github.com/jbenet/goprocess v0.1.4 // indirect
 	github.com/klauspost/cpuid/v2 v2.1.1 // indirect
 	github.com/libp2p/go-buffer-pool v0.1.0 // indirect
