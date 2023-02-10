@@ -9,7 +9,7 @@ require (
 	github.com/ipfs/go-libipfs v0.1.0
 	github.com/ipfs/go-merkledag v0.6.0
 	github.com/ipfs/go-path v0.1.1
-	github.com/ipfs/go-unixfs v0.2.4
+	github.com/ipfs/go-unixfs v0.4.3
 	github.com/libp2p/go-libp2p v0.23.4
 	github.com/multiformats/go-multiaddr v0.8.0
 	github.com/multiformats/go-multibase v0.1.1
@@ -30,7 +30,6 @@ require (
 	github.com/ipfs/go-ipfs-chunker v0.0.1 // indirect
 	github.com/ipfs/go-ipfs-ds-help v1.1.0 // indirect
 	github.com/ipfs/go-ipfs-exchange-interface v0.1.0 // indirect
-	github.com/ipfs/go-ipfs-files v0.0.8 // indirect
 	github.com/ipfs/go-ipfs-posinfo v0.0.1 // indirect
 	github.com/ipfs/go-ipfs-util v0.0.2 // indirect
 	github.com/ipfs/go-ipld-legacy v0.1.0 // indirect
