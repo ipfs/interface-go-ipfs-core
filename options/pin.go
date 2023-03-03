@@ -27,6 +27,11 @@ type PinUpdateSettings struct {
 	Unpin bool
 }
 
+type PinVerifySettings struct {
+	Explain   bool
+	IncludeOk bool
+}
+
 // PinAddOption is the signature of an option for PinAPI.Add
 type PinAddOption func(*PinAddSettings) error
 
@@ -41,6 +46,9 @@ type PinRmOption func(*PinRmSettings) error
 
 // PinUpdateOption is the signature of an option for PinAPI.Update
 type PinUpdateOption func(*PinUpdateSettings) error
+
+// PinVerifyOption is the signature of an option for PinAPI.Verify
+type PinVerifyOption func(settings *PinVerifySettings) error
 
 // PinAddOptions compile a series of PinAddOption into a ready to use
 // PinAddSettings and set the default values.
@@ -126,9 +134,28 @@ func PinUpdateOptions(opts ...PinUpdateOption) (*PinUpdateSettings, error) {
 	return options, nil
 }
 
+// PinVerifyOptions compile a series of PinVerifyOption into a ready to use
+// PinVerifySettings and set the default values.
+func PinVerifyOptions(opts ...PinVerifyOption) (*PinVerifySettings, error) {
+	options := &PinVerifySettings{
+		Explain:   true,
+		IncludeOk: true,
+	}
+
+	for _, opt := range opts {
+		err := opt(options)
+		if err != nil {
+			return nil, err
+		}
+	}
+
+	return options, nil
+}
+
 type pinOpts struct {
 	Ls       pinLsOpts
 	IsPinned pinIsPinnedOpts
+	Verify   pinVerifyOpts
 }
 
 // Pin provide an access to all the options for the Pin API.
@@ -278,6 +305,26 @@ func (pinOpts) RmRecursive(recursive bool) PinRmOption {
 func (pinOpts) Unpin(unpin bool) PinUpdateOption {
 	return func(settings *PinUpdateSettings) error {
 		settings.Unpin = unpin
+		return nil
+	}
+}
+
+type pinVerifyOpts struct{}
+
+// Explain is an option for Pin.Verify which specify if the reason why a pin is broken
+// should be specified. That is, if PinStatus.BadNodes should be set.
+func (pinVerifyOpts) Explain(explain bool) PinVerifyOption {
+	return func(settings *PinVerifySettings) error {
+		settings.Explain = explain
+		return nil
+	}
+}
+
+// IncludeOk is an option for Pin.Verify which specify if the pin verified as
+// good should be listed.
+func (pinVerifyOpts) IncludeOk(includeOk bool) PinVerifyOption {
+	return func(settings *PinVerifySettings) error {
+		settings.IncludeOk = includeOk
 		return nil
 	}
 }

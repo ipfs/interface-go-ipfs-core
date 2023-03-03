@@ -8,6 +8,7 @@ import (
 	"testing"
 
 	ipld "github.com/ipfs/go-ipld-format"
+
 	coreiface "github.com/ipfs/interface-go-ipfs-core"
 	opt "github.com/ipfs/interface-go-ipfs-core/options"
 	"github.com/ipfs/interface-go-ipfs-core/path"
@@ -324,7 +325,7 @@ func (tp *TestSuite) TestBlockPin(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	if pins, err := api.Pin().Ls(ctx); err != nil || len(pins) != 0 {
+	if pins := api.Pin().Ls(ctx); pins.Err() != nil || pins.Len() != 0 {
 		t.Fatal("expected 0 pins")
 	}
 
@@ -338,7 +339,7 @@ func (tp *TestSuite) TestBlockPin(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	pins, err := accPins(api.Pin().Ls(ctx))
+	pins, err := api.Pin().Ls(ctx).Rest()
 	if err != nil {
 		t.Fatal(err)
 	}

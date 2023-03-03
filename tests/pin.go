@@ -68,7 +68,7 @@ func (tp *TestSuite) TestPinSimple(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	list, err := accPins(api.Pin().Ls(ctx))
+	list, err := api.Pin().Ls(ctx).Rest()
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -92,7 +92,7 @@ func (tp *TestSuite) TestPinSimple(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	list, err = accPins(api.Pin().Ls(ctx))
+	list, err = api.Pin().Ls(ctx).Rest()
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -144,7 +144,7 @@ func (tp *TestSuite) TestPinRecursive(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	list, err := accPins(api.Pin().Ls(ctx))
+	list, err := api.Pin().Ls(ctx).Rest()
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -153,7 +153,7 @@ func (tp *TestSuite) TestPinRecursive(t *testing.T) {
 		t.Errorf("unexpected pin list len: %d", len(list))
 	}
 
-	list, err = accPins(api.Pin().Ls(ctx, opt.Pin.Ls.Direct()))
+	list, err = api.Pin().Ls(ctx, opt.Pin.Ls.Direct()).Rest()
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -166,7 +166,7 @@ func (tp *TestSuite) TestPinRecursive(t *testing.T) {
 		t.Errorf("unexpected path, %s != %s", list[0].Path().String(), path.IpfsPath(nd3.Cid()).String())
 	}
 
-	list, err = accPins(api.Pin().Ls(ctx, opt.Pin.Ls.Recursive()))
+	list, err = api.Pin().Ls(ctx, opt.Pin.Ls.Recursive()).Rest()
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -179,7 +179,7 @@ func (tp *TestSuite) TestPinRecursive(t *testing.T) {
 		t.Errorf("unexpected path, %s != %s", list[0].Path().String(), path.IpldPath(nd2.Cid()).String())
 	}
 
-	list, err = accPins(api.Pin().Ls(ctx, opt.Pin.Ls.Indirect()))
+	list, err = api.Pin().Ls(ctx, opt.Pin.Ls.Indirect()).Rest()
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -192,23 +192,23 @@ func (tp *TestSuite) TestPinRecursive(t *testing.T) {
 		t.Errorf("unexpected path, %s != %s", list[0].Path().Cid().String(), p0.Cid().String())
 	}
 
-	res, err := api.Pin().Verify(ctx)
-	if err != nil {
-		t.Fatal(err)
-	}
 	n := 0
-	for r := range res {
-		if !r.Ok() {
+	err = api.Pin().Verify(ctx).RangeContext(ctx, func(status iface.PinStatus) error {
+		if !status.Ok() {
 			t.Error("expected pin to be ok")
 		}
 		n++
+		return nil
+	})
+	if err != nil {
+		t.Fatal(err)
 	}
 
 	if n != 1 {
 		t.Errorf("unexpected verify result count: %d", n)
 	}
 
-	//TODO: figure out a way to test verify without touching IpfsNode
+	// TODO: figure out a way to test verify without touching IpfsNode
 	/*
 		err = api.Block().Rm(ctx, p0, opt.Block.Force(true))
 		if err != nil {
@@ -426,21 +426,21 @@ func getThreeChainedNodes(t *testing.T, ctx context.Context, api iface.CoreAPI, 
 func assertPinTypes(t *testing.T, ctx context.Context, api iface.CoreAPI, recusive, direct, indirect []cidContainer) {
 	assertPinLsAllConsistency(t, ctx, api)
 
-	list, err := accPins(api.Pin().Ls(ctx, opt.Pin.Ls.Recursive()))
+	list, err := api.Pin().Ls(ctx, opt.Pin.Ls.Recursive()).Rest()
 	if err != nil {
 		t.Fatal(err)
 	}
 
 	assertPinCids(t, list, recusive...)
 
-	list, err = accPins(api.Pin().Ls(ctx, opt.Pin.Ls.Direct()))
+	list, err = api.Pin().Ls(ctx, opt.Pin.Ls.Direct()).Rest()
 	if err != nil {
 		t.Fatal(err)
 	}
 
 	assertPinCids(t, list, direct...)
 
-	list, err = accPins(api.Pin().Ls(ctx, opt.Pin.Ls.Indirect()))
+	list, err = api.Pin().Ls(ctx, opt.Pin.Ls.Indirect()).Rest()
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -490,7 +490,7 @@ func assertPinCids(t *testing.T, pins []iface.Pin, cids ...cidContainer) {
 // assertPinLsAllConsistency verifies that listing all pins gives the same result as listing the pin types individually
 func assertPinLsAllConsistency(t *testing.T, ctx context.Context, api iface.CoreAPI) {
 	t.Helper()
-	allPins, err := accPins(api.Pin().Ls(ctx))
+	allPins, err := api.Pin().Ls(ctx).Rest()
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -521,7 +521,7 @@ func assertPinLsAllConsistency(t *testing.T, ctx context.Context, api iface.Core
 	}
 
 	for typeStr, pinProps := range typeMap {
-		pins, err := accPins(api.Pin().Ls(ctx, pinProps.PinLsOption))
+		pins, err := api.Pin().Ls(ctx, pinProps.PinLsOption).Rest()
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -581,21 +581,4 @@ func assertNotPinned(t *testing.T, ctx context.Context, api iface.CoreAPI, p pat
 	if pinned {
 		t.Fatalf("%s expected to not be pinned", p)
 	}
-}
-
-func accPins(pins <-chan iface.Pin, err error) ([]iface.Pin, error) {
-	if err != nil {
-		return nil, err
-	}
-
-	var result []iface.Pin
-
-	for pin := range pins {
-		if pin.Err() != nil {
-			return nil, pin.Err()
-		}
-		result = append(result, pin)
-	}
-
-	return result, nil
 }

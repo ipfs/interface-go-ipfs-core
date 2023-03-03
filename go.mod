@@ -1,6 +1,7 @@
 module github.com/ipfs/interface-go-ipfs-core
 
 require (
+	github.com/Jorropo/channel v0.0.0-20230303124104-2821e25e07ff
 	github.com/gogo/protobuf v1.3.2
 	github.com/ipfs/go-cid v0.3.2
 	github.com/ipfs/go-ipld-cbor v0.0.5
@@ -16,6 +17,8 @@ require (
 	github.com/multiformats/go-multicodec v0.6.0
 	github.com/multiformats/go-multihash v0.2.1
 )
+
+replace github.com/Jorropo/channel => github.com/MichaelMure/channel v0.0.0-20230303132646-a77d888b67d4
 
 require (
 	github.com/crackcomm/go-gitignore v0.0.0-20170627025303-887ab5e44cc3 // indirect

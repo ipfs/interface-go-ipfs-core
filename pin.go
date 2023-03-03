@@ -3,6 +3,9 @@ package iface
 import (
 	"context"
 
+	"github.com/Jorropo/channel"
+	"github.com/ipfs/go-cid"
+
 	path "github.com/ipfs/interface-go-ipfs-core/path"
 
 	"github.com/ipfs/interface-go-ipfs-core/options"
@@ -22,6 +25,9 @@ type Pin interface {
 
 // PinStatus holds information about pin health
 type PinStatus interface {
+	// Cid returns the root Cid of the pin
+	Cid() cid.Cid
+
 	// Ok indicates whether the pin has been verified to be correct
 	Ok() bool
 
@@ -45,7 +51,7 @@ type PinAPI interface {
 	Add(context.Context, path.Path, ...options.PinAddOption) error
 
 	// Ls returns list of pinned objects on this node
-	Ls(context.Context, ...options.PinLsOption) (<-chan Pin, error)
+	Ls(context.Context, ...options.PinLsOption) channel.ReadOnly[Pin]
 
 	// IsPinned returns whether or not the given cid is pinned
 	// and an explanation of why its pinned
@@ -59,5 +65,5 @@ type PinAPI interface {
 	Update(ctx context.Context, from path.Path, to path.Path, opts ...options.PinUpdateOption) error
 
 	// Verify verifies the integrity of pinned objects
-	Verify(context.Context) (<-chan PinStatus, error)
+	Verify(ctx context.Context, opts ...options.PinVerifyOption) channel.ReadOnly[PinStatus]
 }
