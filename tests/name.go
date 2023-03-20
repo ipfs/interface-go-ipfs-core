@@ -10,7 +10,7 @@ import (
 
 	path "github.com/ipfs/interface-go-ipfs-core/path"
 
-	"github.com/ipfs/go-libipfs/files"
+	"github.com/ipfs/boxo/files"
 
 	coreiface "github.com/ipfs/interface-go-ipfs-core"
 	opt "github.com/ipfs/interface-go-ipfs-core/options"

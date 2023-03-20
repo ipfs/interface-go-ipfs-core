@@ -6,8 +6,8 @@ import (
 	"github.com/ipfs/interface-go-ipfs-core/options"
 	path "github.com/ipfs/interface-go-ipfs-core/path"
 
+	"github.com/ipfs/boxo/files"
 	"github.com/ipfs/go-cid"
-	"github.com/ipfs/go-libipfs/files"
 )
 
 type AddEvent struct {
