@@ -5,6 +5,7 @@ import (
 	"io"
 )
 
+// Deprecated: use github.com/ipfs/boxo/coreiface.Reader
 type Reader interface {
 	ReadSeekCloser
 	Size() uint64
@@ -12,6 +13,8 @@ type Reader interface {
 }
 
 // A ReadSeekCloser implements interfaces to read, copy, seek and close.
+//
+// Deprecated: use github.com/ipfs/boxo/coreiface.ReadSeekCloser
 type ReadSeekCloser interface {
 	io.Reader
 	io.Seeker

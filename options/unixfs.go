@@ -9,13 +9,17 @@ import (
 	mh "github.com/multiformats/go-multihash"
 )
 
+// Deprecated: use github.com/ipfs/boxo/coreiface/options.Layout
 type Layout int
 
 const (
+	// Deprecated: use github.com/ipfs/boxo/coreiface/options.BalancedLayout
 	BalancedLayout Layout = iota
+	// Deprecated: use github.com/ipfs/boxo/coreiface/options.TrickleLayout
 	TrickleLayout
 )
 
+// Deprecated: use github.com/ipfs/boxo/coreiface/options.UnixfsAddSettings
 type UnixfsAddSettings struct {
 	CidVersion int
 	MhType     uint64
@@ -38,14 +42,19 @@ type UnixfsAddSettings struct {
 	Progress bool
 }
 
+// Deprecated: use github.com/ipfs/boxo/coreiface/options.UnixfsLsSettings
 type UnixfsLsSettings struct {
 	ResolveChildren   bool
 	UseCumulativeSize bool
 }
 
+// Deprecated: use github.com/ipfs/boxo/coreiface/options.UnixfsAddOption
 type UnixfsAddOption func(*UnixfsAddSettings) error
+
+// Deprecated: use github.com/ipfs/boxo/coreiface/options.UnixfsLsOption
 type UnixfsLsOption func(*UnixfsLsSettings) error
 
+// Deprecated: use github.com/ipfs/boxo/coreiface/options.UnixfsAddOptions
 func UnixfsAddOptions(opts ...UnixfsAddOption) (*UnixfsAddSettings, cid.Prefix, error) {
 	options := &UnixfsAddSettings{
 		CidVersion: -1,
@@ -120,6 +129,7 @@ func UnixfsAddOptions(opts ...UnixfsAddOption) (*UnixfsAddSettings, cid.Prefix, 
 	return options, prefix, nil
 }
 
+// Deprecated: use github.com/ipfs/boxo/coreiface/options.UnixfsLsOptions
 func UnixfsLsOptions(opts ...UnixfsLsOption) (*UnixfsLsSettings, error) {
 	options := &UnixfsLsSettings{
 		ResolveChildren: true,
@@ -137,6 +147,7 @@ func UnixfsLsOptions(opts ...UnixfsLsOption) (*UnixfsLsSettings, error) {
 
 type unixfsOpts struct{}
 
+// Deprecated: use github.com/ipfs/boxo/coreiface/options.Unixfs
 var Unixfs unixfsOpts
 
 // CidVersion specifies which CID version to use. Defaults to 0 unless an option

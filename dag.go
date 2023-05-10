@@ -5,6 +5,8 @@ import (
 )
 
 // APIDagService extends ipld.DAGService
+//
+// Deprecated: use github.com/ipfs/boxo/coreiface.APIDagService
 type APIDagService interface {
 	ipld.DAGService
 

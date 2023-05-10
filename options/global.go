@@ -1,12 +1,15 @@
 package options
 
+// Deprecated: use github.com/ipfs/boxo/coreiface/options.ApiSettings
 type ApiSettings struct {
 	Offline     bool
 	FetchBlocks bool
 }
 
+// Deprecated: use github.com/ipfs/boxo/coreiface/options.ApiOption
 type ApiOption func(*ApiSettings) error
 
+// Deprecated: use github.com/ipfs/boxo/coreiface/options.ApiOptions
 func ApiOptions(opts ...ApiOption) (*ApiSettings, error) {
 	options := &ApiSettings{
 		Offline:     false,
@@ -16,6 +19,7 @@ func ApiOptions(opts ...ApiOption) (*ApiSettings, error) {
 	return ApiOptionsTo(options, opts...)
 }
 
+// Deprecated: use github.com/ipfs/boxo/coreiface/options.ApiOptionsTo
 func ApiOptionsTo(options *ApiSettings, opts ...ApiOption) (*ApiSettings, error) {
 	for _, opt := range opts {
 		err := opt(options)
@@ -28,6 +32,7 @@ func ApiOptionsTo(options *ApiSettings, opts ...ApiOption) (*ApiSettings, error)
 
 type apiOpts struct{}
 
+// Deprecated: use github.com/ipfs/boxo/coreiface/options.Api
 var Api apiOpts
 
 func (apiOpts) Offline(offline bool) ApiOption {

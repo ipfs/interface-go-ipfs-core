@@ -8,18 +8,24 @@ import (
 	mh "github.com/multiformats/go-multihash"
 )
 
+// Deprecated: use github.com/ipfs/boxo/coreiface/options.BlockPutSettings
 type BlockPutSettings struct {
 	CidPrefix cid.Prefix
 	Pin       bool
 }
 
+// Deprecated: use github.com/ipfs/boxo/coreiface/options.BlockRmSettings
 type BlockRmSettings struct {
 	Force bool
 }
 
+// Deprecated: use github.com/ipfs/boxo/coreiface/options.BlockPutOption
 type BlockPutOption func(*BlockPutSettings) error
+
+// Deprecated: use github.com/ipfs/boxo/coreiface/options.BlockRmOption
 type BlockRmOption func(*BlockRmSettings) error
 
+// Deprecated: use github.com/ipfs/boxo/coreiface/options.BlockPutOptions
 func BlockPutOptions(opts ...BlockPutOption) (*BlockPutSettings, error) {
 	var cidPrefix cid.Prefix
 
@@ -45,6 +51,7 @@ func BlockPutOptions(opts ...BlockPutOption) (*BlockPutSettings, error) {
 	return options, nil
 }
 
+// Deprecated: use github.com/ipfs/boxo/coreiface/options.BlockRmOptions
 func BlockRmOptions(opts ...BlockRmOption) (*BlockRmSettings, error) {
 	options := &BlockRmSettings{
 		Force: false,
@@ -61,6 +68,7 @@ func BlockRmOptions(opts ...BlockRmOption) (*BlockRmSettings, error) {
 
 type blockOpts struct{}
 
+// Deprecated: use github.com/ipfs/boxo/coreiface/options.Block
 var Block blockOpts
 
 // CidCodec is the modern option for Block.Put which specifies the multicodec to use

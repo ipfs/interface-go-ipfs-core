@@ -7,9 +7,11 @@ import (
 )
 
 const (
+	// Deprecated: use github.com/ipfs/boxo/coreiface/options.DefaultNameValidTime
 	DefaultNameValidTime = 24 * time.Hour
 )
 
+// Deprecated: use github.com/ipfs/boxo/coreiface/options.NamePublishSettings
 type NamePublishSettings struct {
 	ValidTime time.Duration
 	Key       string
@@ -19,15 +21,20 @@ type NamePublishSettings struct {
 	AllowOffline bool
 }
 
+// Deprecated: use github.com/ipfs/boxo/coreiface/options.NameResolveSettings
 type NameResolveSettings struct {
 	Cache bool
 
 	ResolveOpts []ropts.ResolveOpt
 }
 
+// Deprecated: use github.com/ipfs/boxo/coreiface/options.NamePublishOption
 type NamePublishOption func(*NamePublishSettings) error
+
+// Deprecated: use github.com/ipfs/boxo/coreiface/options.NameResolveOption
 type NameResolveOption func(*NameResolveSettings) error
 
+// Deprecated: use github.com/ipfs/boxo/coreiface/options.NamePublishOptions
 func NamePublishOptions(opts ...NamePublishOption) (*NamePublishSettings, error) {
 	options := &NamePublishSettings{
 		ValidTime: DefaultNameValidTime,
@@ -46,6 +53,7 @@ func NamePublishOptions(opts ...NamePublishOption) (*NamePublishSettings, error)
 	return options, nil
 }
 
+// Deprecated: use github.com/ipfs/boxo/coreiface/options.NameResolveOptions
 func NameResolveOptions(opts ...NameResolveOption) (*NameResolveSettings, error) {
 	options := &NameResolveSettings{
 		Cache: true,
@@ -63,6 +71,7 @@ func NameResolveOptions(opts ...NameResolveOption) (*NameResolveSettings, error)
 
 type nameOpts struct{}
 
+// Deprecated: use github.com/ipfs/boxo/coreiface/options.Name
 var Name nameOpts
 
 // ValidTime is an option for Name.Publish which specifies for how long the

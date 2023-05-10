@@ -20,6 +20,7 @@ func (tp *TestSuite) makeAPI(ctx context.Context) (coreiface.CoreAPI, error) {
 	return api[0], nil
 }
 
+// Deprecated: use github.com/ipfs/boxo/coreiface/tests.Provider
 type Provider interface {
 	// Make creates n nodes. fullIdentity set to false can be ignored
 	MakeAPISwarm(ctx context.Context, fullIdentity bool, n int) ([]coreiface.CoreAPI, error)
@@ -37,12 +38,14 @@ func (tp *TestSuite) MakeAPISwarm(ctx context.Context, fullIdentity bool, n int)
 	return tp.Provider.MakeAPISwarm(ctx, fullIdentity, n)
 }
 
+// Deprecated: use github.com/ipfs/boxo/coreiface/tests.TestSuite
 type TestSuite struct {
 	Provider
 
 	apis chan int
 }
 
+// Deprecated: use github.com/ipfs/boxo/coreiface/tests.TestApi
 func TestApi(p Provider) func(t *testing.T) {
 	running := 1
 	apis := make(chan int)

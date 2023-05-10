@@ -9,9 +9,12 @@ import (
 	"github.com/ipfs/interface-go-ipfs-core/options"
 )
 
+// Deprecated: use github.com/ipfs/boxo/coreiface.ErrResolveFailed
 var ErrResolveFailed = errors.New("could not resolve name")
 
 // IpnsEntry specifies the interface to IpnsEntries
+//
+// Deprecated: use github.com/ipfs/boxo/coreiface.IpnsEntry
 type IpnsEntry interface {
 	// Name returns IpnsEntry name
 	Name() string
@@ -19,6 +22,7 @@ type IpnsEntry interface {
 	Value() path.Path
 }
 
+// Deprecated: use github.com/ipfs/boxo/coreiface.IpnsResult
 type IpnsResult struct {
 	path.Path
 	Err error
@@ -32,6 +36,8 @@ type IpnsResult struct {
 // its public key.
 //
 // You can use .Key API to list and generate more names and their respective keys.
+//
+// Deprecated: use github.com/ipfs/boxo/coreiface.NameAPI
 type NameAPI interface {
 	// Publish announces new IPNS name
 	Publish(ctx context.Context, path path.Path, opts ...options.NamePublishOption) (IpnsEntry, error)

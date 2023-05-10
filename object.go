@@ -13,6 +13,8 @@ import (
 )
 
 // ObjectStat provides information about dag nodes
+//
+// Deprecated: use github.com/ipfs/boxo/coreiface.ObjectStat
 type ObjectStat struct {
 	// Cid is the CID of the node
 	Cid cid.Cid
@@ -34,20 +36,30 @@ type ObjectStat struct {
 }
 
 // ChangeType denotes type of change in ObjectChange
+//
+// Deprecated: use github.com/ipfs/boxo/coreiface.ChangeType
 type ChangeType int
 
 const (
 	// DiffAdd is set when a link was added to the graph
+	//
+	// Deprecated: use github.com/ipfs/boxo/coreiface.DiffAdd
 	DiffAdd ChangeType = iota
 
 	// DiffRemove is set when a link was removed from the graph
+	//
+	// Deprecated: use github.com/ipfs/boxo/coreiface.DiffRemove
 	DiffRemove
 
 	// DiffMod is set when a link was changed in the graph
+	//
+	// Deprecated: use github.com/ipfs/boxo/coreiface.DiffMod
 	DiffMod
 )
 
 // ObjectChange represents a change ia a graph
+//
+// Deprecated: use github.com/ipfs/boxo/coreiface.ObjectChange
 type ObjectChange struct {
 	// Type of the change, either:
 	// * DiffAdd - Added a link
@@ -69,6 +81,8 @@ type ObjectChange struct {
 
 // ObjectAPI specifies the interface to MerkleDAG and contains useful utilities
 // for manipulating MerkleDAG data structures.
+//
+// Deprecated: use github.com/ipfs/boxo/coreiface.ObjectAPI
 type ObjectAPI interface {
 	// New creates new, empty (by default) dag-node.
 	New(context.Context, ...options.ObjectNewOption) (ipld.Node, error)

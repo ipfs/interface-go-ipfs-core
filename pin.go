@@ -9,6 +9,8 @@ import (
 )
 
 // Pin holds information about pinned resource
+//
+// Deprecated: use github.com/ipfs/boxo/coreiface.Pin
 type Pin interface {
 	// Path to the pinned object
 	Path() path.Resolved
@@ -21,6 +23,8 @@ type Pin interface {
 }
 
 // PinStatus holds information about pin health
+//
+// Deprecated: use github.com/ipfs/boxo/coreiface.PinStatus
 type PinStatus interface {
 	// Ok indicates whether the pin has been verified to be correct
 	Ok() bool
@@ -30,6 +34,8 @@ type PinStatus interface {
 }
 
 // BadPinNode is a node that has been marked as bad by Pin.Verify
+//
+// Deprecated: use github.com/ipfs/boxo/coreiface.BadPinNode
 type BadPinNode interface {
 	// Path is the path of the node
 	Path() path.Resolved
@@ -39,6 +45,8 @@ type BadPinNode interface {
 }
 
 // PinAPI specifies the interface to pining
+//
+// Deprecated: use github.com/ipfs/boxo/coreiface.PinAPI
 type PinAPI interface {
 	// Add creates new pin, be default recursive - pinning the whole referenced
 	// tree
