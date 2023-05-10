@@ -3,47 +3,69 @@ package options
 import "fmt"
 
 // PinAddSettings represent the settings for PinAPI.Add
+//
+// Deprecated: use github.com/ipfs/boxo/coreiface/options.PinAddSettings
 type PinAddSettings struct {
 	Recursive bool
 }
 
 // PinLsSettings represent the settings for PinAPI.Ls
+//
+// Deprecated: use github.com/ipfs/boxo/coreiface/options.PinLsSettings
 type PinLsSettings struct {
 	Type string
 }
 
 // PinIsPinnedSettings represent the settings for PinAPI.IsPinned
+//
+// Deprecated: use github.com/ipfs/boxo/coreiface/options.PinIsPinnedSettings
 type PinIsPinnedSettings struct {
 	WithType string
 }
 
 // PinRmSettings represents the settings for PinAPI.Rm
+//
+// Deprecated: use github.com/ipfs/boxo/coreiface/options.PinRmSettings
 type PinRmSettings struct {
 	Recursive bool
 }
 
 // PinUpdateSettings represent the settings for PinAPI.Update
+//
+// Deprecated: use github.com/ipfs/boxo/coreiface/options.PinUpdateSettings
 type PinUpdateSettings struct {
 	Unpin bool
 }
 
 // PinAddOption is the signature of an option for PinAPI.Add
+//
+// Deprecated: use github.com/ipfs/boxo/coreiface/options.PinAddOption
 type PinAddOption func(*PinAddSettings) error
 
 // PinLsOption is the signature of an option for PinAPI.Ls
+//
+// Deprecated: use github.com/ipfs/boxo/coreiface/options.PinLsOption
 type PinLsOption func(*PinLsSettings) error
 
 // PinIsPinnedOption is the signature of an option for PinAPI.IsPinned
+//
+// Deprecated: use github.com/ipfs/boxo/coreiface/options.PinIsPinnedOption
 type PinIsPinnedOption func(*PinIsPinnedSettings) error
 
 // PinRmOption is the signature of an option for PinAPI.Rm
+//
+// Deprecated: use github.com/ipfs/boxo/coreiface/options.PinRmOption
 type PinRmOption func(*PinRmSettings) error
 
 // PinUpdateOption is the signature of an option for PinAPI.Update
+//
+// Deprecated: use github.com/ipfs/boxo/coreiface/options.PinUpdateOption
 type PinUpdateOption func(*PinUpdateSettings) error
 
 // PinAddOptions compile a series of PinAddOption into a ready to use
 // PinAddSettings and set the default values.
+//
+// Deprecated: use github.com/ipfs/boxo/coreiface/options.PinAddOptions
 func PinAddOptions(opts ...PinAddOption) (*PinAddSettings, error) {
 	options := &PinAddSettings{
 		Recursive: true,
@@ -61,6 +83,8 @@ func PinAddOptions(opts ...PinAddOption) (*PinAddSettings, error) {
 
 // PinLsOptions compile a series of PinLsOption into a ready to use
 // PinLsSettings and set the default values.
+//
+// Deprecated: use github.com/ipfs/boxo/coreiface/options.PinLsOptions
 func PinLsOptions(opts ...PinLsOption) (*PinLsSettings, error) {
 	options := &PinLsSettings{
 		Type: "all",
@@ -78,6 +102,8 @@ func PinLsOptions(opts ...PinLsOption) (*PinLsSettings, error) {
 
 // PinIsPinnedOptions compile a series of PinIsPinnedOption into a ready to use
 // PinIsPinnedSettings and set the default values.
+//
+// Deprecated: use github.com/ipfs/boxo/coreiface/options.PinIsPinnedOptions
 func PinIsPinnedOptions(opts ...PinIsPinnedOption) (*PinIsPinnedSettings, error) {
 	options := &PinIsPinnedSettings{
 		WithType: "all",
@@ -95,6 +121,8 @@ func PinIsPinnedOptions(opts ...PinIsPinnedOption) (*PinIsPinnedSettings, error)
 
 // PinRmOptions compile a series of PinRmOption into a ready to use
 // PinRmSettings and set the default values.
+//
+// Deprecated: use github.com/ipfs/boxo/coreiface/options.PinRmOptions
 func PinRmOptions(opts ...PinRmOption) (*PinRmSettings, error) {
 	options := &PinRmSettings{
 		Recursive: true,
@@ -111,6 +139,8 @@ func PinRmOptions(opts ...PinRmOption) (*PinRmSettings, error) {
 
 // PinUpdateOptions compile a series of PinUpdateOption into a ready to use
 // PinUpdateSettings and set the default values.
+//
+// Deprecated: use github.com/ipfs/boxo/coreiface/options.PinUpdateOptions
 func PinUpdateOptions(opts ...PinUpdateOption) (*PinUpdateSettings, error) {
 	options := &PinUpdateSettings{
 		Unpin: true,
@@ -132,6 +162,8 @@ type pinOpts struct {
 }
 
 // Pin provide an access to all the options for the Pin API.
+//
+// Deprecated: use github.com/ipfs/boxo/coreiface/options.Pin
 var Pin pinOpts
 
 type pinLsOpts struct{}

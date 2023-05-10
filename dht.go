@@ -13,6 +13,8 @@ import (
 // DhtAPI specifies the interface to the DHT
 // Note: This API will likely get deprecated in near future, see
 // https://github.com/ipfs/interface-ipfs-core/issues/249 for more context.
+//
+// Deprecated: use github.com/ipfs/boxo/coreiface.DhtAPI
 type DhtAPI interface {
 	// FindPeer queries the DHT for all of the multiaddresses associated with a
 	// Peer ID

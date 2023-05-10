@@ -13,6 +13,8 @@ import (
 )
 
 // CoreAPI defines an unified interface to IPFS for Go programs
+//
+// Deprecated: use github.com/ipfs/boxo/coreiface.CoreAPI
 type CoreAPI interface {
 	// Unixfs returns an implementation of Unixfs API
 	Unixfs() UnixfsAPI

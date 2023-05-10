@@ -11,6 +11,8 @@ import (
 )
 
 // Key specifies the interface to Keys in KeyAPI Keystore
+//
+// Deprecated: use github.com/ipfs/boxo/coreiface.Key
 type Key interface {
 	// Key returns key name
 	Name() string
@@ -23,6 +25,8 @@ type Key interface {
 }
 
 // KeyAPI specifies the interface to Keystore
+//
+// Deprecated: use github.com/ipfs/boxo/coreiface.KeyAPI
 type KeyAPI interface {
 	// Generate generates new key, stores it in the keystore under the specified
 	// name and returns a base58 encoded multihash of it's public key

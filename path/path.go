@@ -16,6 +16,8 @@ import (
 // * /ipld - Immutable ipld path (data)
 // * /ipns - Mutable names. Usually resolves to one of the immutable paths
 // TODO: /local (MFS)
+//
+// Deprecated: use github.com/ipfs/boxo/coreiface/path.Path
 type Path interface {
 	// String returns the path as a string.
 	String() string
@@ -41,6 +43,8 @@ type Path interface {
 
 // Resolved is a path which was resolved to the last resolvable node.
 // ResolvedPaths are guaranteed to return nil from `IsValid`
+//
+// Deprecated: use github.com/ipfs/boxo/coreiface/path.Resolved
 type Resolved interface {
 	// Cid returns the CID of the node referenced by the path. Remainder of the
 	// path is guaranteed to be within the node.
@@ -114,12 +118,16 @@ type resolvedPath struct {
 }
 
 // Join appends provided segments to the base path
+//
+// Deprecated: use github.com/ipfs/boxo/coreiface/path.Join
 func Join(base Path, a ...string) Path {
 	s := strings.Join(append([]string{base.String()}, a...), "/")
 	return &path{path: s}
 }
 
 // IpfsPath creates new /ipfs path from the provided CID
+//
+// Deprecated: use github.com/ipfs/boxo/coreiface/path.IpfsPath
 func IpfsPath(c cid.Cid) Resolved {
 	return &resolvedPath{
 		path:      path{"/ipfs/" + c.String()},
@@ -130,6 +138,8 @@ func IpfsPath(c cid.Cid) Resolved {
 }
 
 // IpldPath creates new /ipld path from the provided CID
+//
+// Deprecated: use github.com/ipfs/boxo/coreiface/path.IpldPath
 func IpldPath(c cid.Cid) Resolved {
 	return &resolvedPath{
 		path:      path{"/ipld/" + c.String()},
@@ -140,6 +150,8 @@ func IpldPath(c cid.Cid) Resolved {
 }
 
 // New parses string path to a Path
+//
+// Deprecated: use github.com/ipfs/boxo/coreiface/path.New
 func New(p string) Path {
 	if pp, err := ipfspath.ParsePath(p); err == nil {
 		p = pp.String()
@@ -151,6 +163,8 @@ func New(p string) Path {
 // NewResolvedPath creates new Resolved path. This function performs no checks
 // and is intended to be used by resolver implementations. Incorrect inputs may
 // cause panics. Handle with care.
+//
+// Deprecated: use github.com/ipfs/boxo/coreiface/path.NewResolvedPath
 func NewResolvedPath(ipath ipfspath.Path, c cid.Cid, root cid.Cid, remainder string) Resolved {
 	return &resolvedPath{
 		path:      path{ipath.String()},

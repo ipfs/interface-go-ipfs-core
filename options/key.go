@@ -1,24 +1,33 @@
 package options
 
 const (
-	RSAKey     = "rsa"
+	// Deprecated: use github.com/ipfs/boxo/coreiface/options.RSAKey
+	RSAKey = "rsa"
+	// Deprecated: use github.com/ipfs/boxo/coreiface/options.Ed25519Key
 	Ed25519Key = "ed25519"
 
+	// Deprecated: use github.com/ipfs/boxo/coreiface/options.DefaultRSALen
 	DefaultRSALen = 2048
 )
 
+// Deprecated: use github.com/ipfs/boxo/coreiface/options.KeyGenerateSettings
 type KeyGenerateSettings struct {
 	Algorithm string
 	Size      int
 }
 
+// Deprecated: use github.com/ipfs/boxo/coreiface/options.KeyRenameSettings
 type KeyRenameSettings struct {
 	Force bool
 }
 
+// Deprecated: use github.com/ipfs/boxo/coreiface/options.KeyGenerateOption
 type KeyGenerateOption func(*KeyGenerateSettings) error
+
+// Deprecated: use github.com/ipfs/boxo/coreiface/options.KeyRenameOption
 type KeyRenameOption func(*KeyRenameSettings) error
 
+// Deprecated: use github.com/ipfs/boxo/coreiface/options.KeyGenerateOptions
 func KeyGenerateOptions(opts ...KeyGenerateOption) (*KeyGenerateSettings, error) {
 	options := &KeyGenerateSettings{
 		Algorithm: RSAKey,
@@ -34,6 +43,7 @@ func KeyGenerateOptions(opts ...KeyGenerateOption) (*KeyGenerateSettings, error)
 	return options, nil
 }
 
+// Deprecated: use github.com/ipfs/boxo/coreiface/options.KeyRenameOptions
 func KeyRenameOptions(opts ...KeyRenameOption) (*KeyRenameSettings, error) {
 	options := &KeyRenameSettings{
 		Force: false,
@@ -50,6 +60,7 @@ func KeyRenameOptions(opts ...KeyRenameOption) (*KeyRenameSettings, error) {
 
 type keyOpts struct{}
 
+// Deprecated: use github.com/ipfs/boxo/coreiface/options.Key
 var Key keyOpts
 
 // Type is an option for Key.Generate which specifies which algorithm

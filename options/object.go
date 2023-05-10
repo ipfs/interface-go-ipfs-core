@@ -1,23 +1,32 @@
 package options
 
+// Deprecated: use github.com/ipfs/boxo/coreiface/options.ObjectNewSettings
 type ObjectNewSettings struct {
 	Type string
 }
 
+// Deprecated: use github.com/ipfs/boxo/coreiface/options.ObjectPutSettings
 type ObjectPutSettings struct {
 	InputEnc string
 	DataType string
 	Pin      bool
 }
 
+// Deprecated: use github.com/ipfs/boxo/coreiface/options.ObjectAddLinkSettings
 type ObjectAddLinkSettings struct {
 	Create bool
 }
 
+// Deprecated: use github.com/ipfs/boxo/coreiface/options.ObjectNewOption
 type ObjectNewOption func(*ObjectNewSettings) error
+
+// Deprecated: use github.com/ipfs/boxo/coreiface/options.ObjectPutOption
 type ObjectPutOption func(*ObjectPutSettings) error
+
+// Deprecated: use github.com/ipfs/boxo/coreiface/options.ObjectAddLinkOption
 type ObjectAddLinkOption func(*ObjectAddLinkSettings) error
 
+// Deprecated: use github.com/ipfs/boxo/coreiface/options.ObjectNewOptions
 func ObjectNewOptions(opts ...ObjectNewOption) (*ObjectNewSettings, error) {
 	options := &ObjectNewSettings{
 		Type: "empty",
@@ -32,6 +41,7 @@ func ObjectNewOptions(opts ...ObjectNewOption) (*ObjectNewSettings, error) {
 	return options, nil
 }
 
+// Deprecated: use github.com/ipfs/boxo/coreiface/options.ObjectPutOptions
 func ObjectPutOptions(opts ...ObjectPutOption) (*ObjectPutSettings, error) {
 	options := &ObjectPutSettings{
 		InputEnc: "json",
@@ -48,6 +58,7 @@ func ObjectPutOptions(opts ...ObjectPutOption) (*ObjectPutSettings, error) {
 	return options, nil
 }
 
+// Deprecated: use github.com/ipfs/boxo/coreiface/options.ObjectAddLinkOptions
 func ObjectAddLinkOptions(opts ...ObjectAddLinkOption) (*ObjectAddLinkSettings, error) {
 	options := &ObjectAddLinkSettings{
 		Create: false,
@@ -64,6 +75,7 @@ func ObjectAddLinkOptions(opts ...ObjectAddLinkOption) (*ObjectAddLinkSettings, 
 
 type objectOpts struct{}
 
+// Deprecated: use github.com/ipfs/boxo/coreiface/options.Object
 var Object objectOpts
 
 // Type is an option for Object.New which allows to change the type of created
