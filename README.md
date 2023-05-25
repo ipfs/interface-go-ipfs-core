@@ -18,19 +18,8 @@ interface-go-ipfs-core
 
 ## Table of Contents
 
-- [Background](#background)
-- [Contribute](#contribute)
+- [Background](#background
 - [License](#license)
-
-## Documentation
-
-TODO
-
-## Contribute
-
-PRs are welcome!
-
-Small note: If editing the Readme, please conform to the [standard-readme](https://github.com/RichardLitt/standard-readme) specification.
 
 ## License
 
